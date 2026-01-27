@@ -1,7 +1,7 @@
-import { index, pgTable, text, timestamp } from "drizzle-orm/pg-core";
-import { users } from "./users";
 import { randomUUIDv7 } from "bun";
 import { relations } from "drizzle-orm";
+import { index, pgTable, text, timestamp } from "drizzle-orm/pg-core";
+import { users } from "./users";
 
 export const sessions = pgTable(
   "sessions",
@@ -20,6 +20,7 @@ export const sessions = pgTable(
     userId: text("user_id")
       .notNull()
       .references(() => users.id, { onDelete: "cascade" }),
+    activeOrganizationId: text("active_organization_id"),
   },
   (table) => [index("sessions_userId_idx").on(table.userId)],
 );

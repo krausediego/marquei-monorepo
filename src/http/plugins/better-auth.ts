@@ -1,6 +1,5 @@
-import { auth } from "@/auth";
 import Elysia from "elysia";
-import { openAPI } from "better-auth/plugins";
+import { auth } from "@/auth";
 
 export const betterAuthPlugin = new Elysia({ name: "better-auth" }).mount(auth.handler).macro({
   auth: {
@@ -14,9 +13,27 @@ export const betterAuthPlugin = new Elysia({ name: "better-auth" }).mount(auth.h
       return session;
     },
   },
+  org: {
+    async resolve({ status, request: { headers } }) {
+      const session = await auth.api.getSession({ headers });
+
+      if (!session) {
+        return status(401, { message: "Unauthorized" });
+      }
+
+      const activeOrgId = session?.session?.activeOrganizationId;
+
+      if (!activeOrgId) {
+        return status(403, { message: "Organization required", code: "ORG_REQUIRED" });
+      }
+
+      return { ...session, activeOrgId };
+    },
+  },
 });
 
 let _schema: ReturnType<typeof auth.api.generateOpenAPISchema>;
+// biome-ignore lint/suspicious/noAssignInExpressions: <explanation>
 const getSchema = async () => (_schema ??= auth.api.generateOpenAPISchema());
 
 export const OpenAPI = {

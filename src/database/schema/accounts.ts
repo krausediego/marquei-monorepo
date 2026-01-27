@@ -1,7 +1,7 @@
-import { index, pgTable, text, timestamp } from "drizzle-orm/pg-core";
-import { users } from "./users";
 import { randomUUIDv7 } from "bun";
 import { relations } from "drizzle-orm";
+import { index, pgTable, text, timestamp } from "drizzle-orm/pg-core";
+import { users } from "./users";
 
 export const accounts = pgTable(
   "accounts",

@@ -3,6 +3,9 @@ import { t } from "elysia";
 
 const envSchema = t.Object({
   DATABASE_URL: t.String({ format: "uri" }),
+  STRIPE_SECRET_KEY: t.String(),
+  STRIPE_PUBLISHABLE_KEY: t.String(),
+  STRIPE_WEBHOOK_SECRET: t.String(),
 });
 
 const compiler = TypeCompiler.Compile(envSchema);
@@ -10,6 +13,9 @@ const compiler = TypeCompiler.Compile(envSchema);
 export const env = (() => {
   const rawEnv = {
     DATABASE_URL: Bun.env.DATABASE_URL,
+    STRIPE_SECRET_KEY: Bun.env.STRIPE_SECRET_KEY,
+    STRIPE_PUBLISHABLE_KEY: Bun.env.STRIPE_PUBLISHABLE_KEY,
+    STRIPE_WEBHOOK_SECRET: Bun.env.STRIPE_WEBHOOK_SECRET,
   };
 
   const encodedEnv = compiler.Encode(rawEnv);

@@ -10,17 +10,17 @@
 
 import { Route as rootRouteImport } from './pages/__root'
 import { Route as AuthLayoutRouteImport } from './pages/_auth/layout'
-import { Route as IndexRouteImport } from './pages/index'
+import { Route as ApplicationLayoutRouteImport } from './pages/_application/layout'
 import { Route as AuthSignUpIndexRouteImport } from './pages/_auth/sign-up/index'
 import { Route as AuthSignInIndexRouteImport } from './pages/_auth/sign-in/index'
+import { Route as ApplicationOverviewIndexRouteImport } from './pages/_application/overview/index'
 
 const AuthLayoutRoute = AuthLayoutRouteImport.update({
   id: '/_auth',
   getParentRoute: () => rootRouteImport,
 } as any)
-const IndexRoute = IndexRouteImport.update({
-  id: '/',
-  path: '/',
+const ApplicationLayoutRoute = ApplicationLayoutRouteImport.update({
+  id: '/_application',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AuthSignUpIndexRoute = AuthSignUpIndexRouteImport.update({
@@ -33,34 +33,49 @@ const AuthSignInIndexRoute = AuthSignInIndexRouteImport.update({
   path: '/sign-in/',
   getParentRoute: () => AuthLayoutRoute,
 } as any)
+const ApplicationOverviewIndexRoute =
+  ApplicationOverviewIndexRouteImport.update({
+    id: '/overview/',
+    path: '/overview/',
+    getParentRoute: () => ApplicationLayoutRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
-  '/': typeof IndexRoute
+  '/': typeof AuthLayoutRouteWithChildren
+  '/overview/': typeof ApplicationOverviewIndexRoute
   '/sign-in/': typeof AuthSignInIndexRoute
   '/sign-up/': typeof AuthSignUpIndexRoute
 }
 export interface FileRoutesByTo {
-  '/': typeof IndexRoute
+  '/': typeof AuthLayoutRouteWithChildren
+  '/overview': typeof ApplicationOverviewIndexRoute
   '/sign-in': typeof AuthSignInIndexRoute
   '/sign-up': typeof AuthSignUpIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
-  '/': typeof IndexRoute
+  '/_application': typeof ApplicationLayoutRouteWithChildren
   '/_auth': typeof AuthLayoutRouteWithChildren
+  '/_application/overview/': typeof ApplicationOverviewIndexRoute
   '/_auth/sign-in/': typeof AuthSignInIndexRoute
   '/_auth/sign-up/': typeof AuthSignUpIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/sign-in/' | '/sign-up/'
+  fullPaths: '/' | '/overview/' | '/sign-in/' | '/sign-up/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/sign-in' | '/sign-up'
-  id: '__root__' | '/' | '/_auth' | '/_auth/sign-in/' | '/_auth/sign-up/'
+  to: '/' | '/overview' | '/sign-in' | '/sign-up'
+  id:
+    | '__root__'
+    | '/_application'
+    | '/_auth'
+    | '/_application/overview/'
+    | '/_auth/sign-in/'
+    | '/_auth/sign-up/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
-  IndexRoute: typeof IndexRoute
+  ApplicationLayoutRoute: typeof ApplicationLayoutRouteWithChildren
   AuthLayoutRoute: typeof AuthLayoutRouteWithChildren
 }
 
@@ -73,11 +88,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthLayoutRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/': {
-      id: '/'
-      path: '/'
+    '/_application': {
+      id: '/_application'
+      path: ''
       fullPath: '/'
-      preLoaderRoute: typeof IndexRouteImport
+      preLoaderRoute: typeof ApplicationLayoutRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/_auth/sign-up/': {
@@ -94,8 +109,26 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthSignInIndexRouteImport
       parentRoute: typeof AuthLayoutRoute
     }
+    '/_application/overview/': {
+      id: '/_application/overview/'
+      path: '/overview'
+      fullPath: '/overview/'
+      preLoaderRoute: typeof ApplicationOverviewIndexRouteImport
+      parentRoute: typeof ApplicationLayoutRoute
+    }
   }
 }
+
+interface ApplicationLayoutRouteChildren {
+  ApplicationOverviewIndexRoute: typeof ApplicationOverviewIndexRoute
+}
+
+const ApplicationLayoutRouteChildren: ApplicationLayoutRouteChildren = {
+  ApplicationOverviewIndexRoute: ApplicationOverviewIndexRoute,
+}
+
+const ApplicationLayoutRouteWithChildren =
+  ApplicationLayoutRoute._addFileChildren(ApplicationLayoutRouteChildren)
 
 interface AuthLayoutRouteChildren {
   AuthSignInIndexRoute: typeof AuthSignInIndexRoute
@@ -112,7 +145,7 @@ const AuthLayoutRouteWithChildren = AuthLayoutRoute._addFileChildren(
 )
 
 const rootRouteChildren: RootRouteChildren = {
-  IndexRoute: IndexRoute,
+  ApplicationLayoutRoute: ApplicationLayoutRouteWithChildren,
   AuthLayoutRoute: AuthLayoutRouteWithChildren,
 }
 export const routeTree = rootRouteImport

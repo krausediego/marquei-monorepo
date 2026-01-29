@@ -1,3 +1,5 @@
+import { createFileRoute, Link } from "@tanstack/react-router";
+import { Controller } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 import {
   Field,
@@ -7,16 +9,15 @@ import {
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
+import { Spinner } from "@/components/ui/spinner";
 import { useSignIn } from "@/hooks/use-sign-in";
-import { createFileRoute } from "@tanstack/react-router";
-import { Controller } from "react-hook-form";
 
 export const Route = createFileRoute("/_auth/sign-in/")({
   component: RouteComponent,
 });
 
 function RouteComponent() {
-  const { form, onSubmit, onSignInWithGoogle } = useSignIn();
+  const { form, onSignInWithGoogle, mutateAsync, isPending } = useSignIn();
 
   return (
     <>
@@ -41,7 +42,7 @@ function RouteComponent() {
       <form
         id="sign-in-form"
         className="space-y-5"
-        onSubmit={form.handleSubmit(onSubmit)}
+        onSubmit={form.handleSubmit((values) => mutateAsync(values))}
       >
         <FieldGroup>
           <Controller
@@ -88,14 +89,20 @@ function RouteComponent() {
         </FieldGroup>
       </form>
       <Field>
-        <Button type="submit" form="sign-in-form" className="w-full">
+        <Button
+          disabled={isPending}
+          type="submit"
+          form="sign-in-form"
+          className="w-full"
+        >
+          {isPending && <Spinner />}
           Entrar
         </Button>
         <p className="text-center text-xs text-muted-foreground">
           Esqueceu a senha?
         </p>
         <p className="text-center text-xs text-muted-foreground">
-          Ainda não possuí uma conta? Cadastre-se
+          Ainda não possuí uma conta? <Link to="/sign-up">Cadastre-se</Link>
         </p>
       </Field>
     </>

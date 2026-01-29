@@ -1,7 +1,8 @@
-import { auth } from "@/lib/auth";
 import { standardSchemaResolver } from "@hookform/resolvers/standard-schema";
-import { useForm, type SubmitHandler } from "react-hook-form";
+import { useMutation } from "@tanstack/react-query";
+import { useForm } from "react-hook-form";
 import z from "zod";
+import { auth } from "@/lib/auth";
 
 const signInSchema = z.object({
   email: z.email({ error: "Insira um e-mail válido." }),
@@ -17,11 +18,11 @@ export function useSignIn() {
     resolver: standardSchemaResolver(signInSchema),
   });
 
-  const onSubmit: SubmitHandler<SignInProps> = async (values) => {
+  const onSubmit = async (values: SignInProps) => {
     await auth.signIn.email(
       {
         ...values,
-        callbackURL: import.meta.env.VITE_FRONTEND_BASE_URL,
+        callbackURL: `${import.meta.env.VITE_FRONTEND_BASE_URL}/overview`,
       },
       {
         onError(context) {
@@ -34,6 +35,10 @@ export function useSignIn() {
       },
     );
   };
+
+  const mutationSignIn = useMutation({
+    mutationFn: onSubmit,
+  });
 
   const onSignInWithGoogle = async () => {
     await auth.signIn.social(
@@ -54,7 +59,7 @@ export function useSignIn() {
 
   return {
     form,
-    onSubmit,
     onSignInWithGoogle,
+    ...mutationSignIn,
   };
 }

@@ -20,24 +20,40 @@ export function Organization() {
   const { data } = auth.useListOrganizations();
   const { data: activeOrganization } = auth.useActiveOrganization();
 
+  async function switchOrganization({
+    organizationId,
+  }: {
+    organizationId: string;
+  }) {
+    await auth.organization.setActive({
+      organizationId,
+    });
+  }
+
   return (
     <Dialog>
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <Button variant="outline">Organização</Button>
+          <Button variant="default" className="mb-2">
+            Organização
+          </Button>
         </DropdownMenuTrigger>
 
-        <DropdownMenuContent side="top" className="min-w-56">
+        <DropdownMenuContent side="top" className="min-w-3xs">
           <DropdownMenuGroup>
             {Array.isArray(data) && data.length > 0 ? (
               <DropdownMenuRadioGroup
                 value={activeOrganization?.id}
-                onValueChange={setPaymentMethod}
+                onValueChange={(value) =>
+                  switchOrganization({ organizationId: value ?? "" })
+                }
               >
                 {data?.map((organization) => (
-                  <DropdownMenuRadioItem value={organization.id}>
-                    <CreditCardIcon className="mr-2 h-4 w-4" />
-                    {organization.name}
+                  <DropdownMenuRadioItem value={organization.id} className="">
+                    <CreditCardIcon className="mr-2 size-4" />
+                    <span className="w-44 truncate">
+                      LJFLKJSLDKFJLSJDFLKJLJKSDFJLKLDSJFLJKLDSKJFJLKDJSLFJDSLKFKLSDLKJFLKJDSLKJF
+                    </span>
                   </DropdownMenuRadioItem>
                 ))}
               </DropdownMenuRadioGroup>
@@ -47,7 +63,7 @@ export function Organization() {
             <DropdownMenuSeparator />
             <DropdownMenuItem asChild>
               <DialogTrigger asChild>
-                <Button variant="secondary">
+                <Button variant="secondary" className="w-full">
                   <Store />
                   Criar nova organização
                 </Button>

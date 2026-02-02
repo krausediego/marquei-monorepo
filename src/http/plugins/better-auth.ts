@@ -5,44 +5,13 @@ export const betterAuthPlugin = new Elysia({ name: "better-auth" }).mount(auth.h
   auth: {
     async resolve({ status, request: { headers } }) {
       const session = await auth.api.getSession({ headers });
-
-      if (!session) {
-        return status(401, { message: "Unauthorized" });
-      }
-
-      return session;
-    },
-  },
-  org: {
-    async resolve({ status, request: { headers } }) {
-      const session = await auth.api.getSession({ headers });
-
-      if (!session) {
-        return status(401, { message: "Unauthorized" });
-      }
-
-      const activeOrgId = session?.session?.activeOrganizationId;
-      const subscription = await auth.api.listActiveSubscriptions({
-        query: {
-          referenceId: session?.session?.activeOrganizationId ?? "",
-        },
-      });
-
-      if (!activeOrgId) {
-        return status(403, { message: "Organization required", code: "ORG_REQUIRED" });
-      }
-
-      if (!subscription) {
-        return status(403, { message: "Not active plan" });
-      }
-
-      return { ...session, activeOrgId, subscription };
+      if (!session) return status(401, { message: "Unauthorized" });
+      return session; // value will be passed to the handler as `ctx.auth`
     },
   },
 });
 
 let _schema: ReturnType<typeof auth.api.generateOpenAPISchema>;
-// biome-ignore lint/suspicious/noAssignInExpressions: <explanation>
 const getSchema = async () => (_schema ??= auth.api.generateOpenAPISchema());
 
 export const OpenAPI = {

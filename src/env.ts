@@ -8,6 +8,9 @@ const envSchema = t.Object({
   STRIPE_WEBHOOK_SECRET: t.String(),
   GOOGLE_CLIENT_ID: t.String(),
   GOOGLE_CLIENT_SECRET: t.String(),
+  CLOUDINARY_CLOUD_NAME: t.String(),
+  CLOUDINARY_API_KEY: t.String(),
+  CLOUDINARY_API_SECRET: t.String(),
 });
 
 const compiler = TypeCompiler.Compile(envSchema);
@@ -20,6 +23,9 @@ export const env = (() => {
     STRIPE_WEBHOOK_SECRET: Bun.env.STRIPE_WEBHOOK_SECRET,
     GOOGLE_CLIENT_ID: Bun.env.GOOGLE_CLIENT_ID,
     GOOGLE_CLIENT_SECRET: Bun.env.GOOGLE_CLIENT_SECRET,
+    CLOUDINARY_CLOUD_NAME: Bun.env.CLOUDINARY_CLOUD_NAME,
+    CLOUDINARY_API_KEY: Bun.env.CLOUDINARY_API_KEY,
+    CLOUDINARY_API_SECRET: Bun.env.CLOUDINARY_API_SECRET,
   };
 
   const encodedEnv = compiler.Encode(rawEnv);

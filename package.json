@@ -1,0 +1,22 @@
+{
+  "name": "meu-monorepo",
+  "module": "index.ts",
+  "type": "module",
+  "private": true,
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "dev": "turbo dev",
+    "build": "turbo build",
+    "lint": "turbo lint"
+  },
+  "devDependencies": {
+    "@types/bun": "latest",
+    "turbo": "^2.8.1"
+  },
+  "peerDependencies": {
+    "typescript": "^5"
+  }
+}

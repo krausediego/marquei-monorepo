@@ -1,0 +1,10 @@
+services:
+  postgres:
+    image: postgis/postgis:16-3.4
+    container_name: marquei-api
+    environment:
+      POSTGRES_DB: auth
+      POSTGRES_USER: docker
+      POSTGRES_PASSWORD: docker
+    ports:
+      - "5432:5432"

@@ -3,7 +3,10 @@ import { Controller } from "react-hook-form";
 import { masks } from "@/helpers/masks";
 import { useCoordinates } from "@/hooks/use-coodinates";
 import { useFetchAddress } from "@/hooks/use-fetch-address";
-import { useNewOrganization } from "@/hooks/use-new-organization";
+import {
+  useNewOrganization,
+  type NewOrganizationProps,
+} from "@/hooks/use-new-organization";
 import { Button } from "../ui/button";
 import {
   DialogClose,
@@ -20,11 +23,16 @@ import { Textarea } from "../ui/textarea";
 import { AddressMap } from "./address-map";
 import { LogoUpload } from "./components/logo-upload";
 import { SectionSeparator } from "./components/section-separator";
+import { createUniqueSlug } from "@/helpers/slug";
 
 type Step = "form" | "map";
 
-export function NewOrganization() {
-  const { form, mutateAsync } = useNewOrganization();
+interface NewOrganizationFormProps {
+  onOpen: (value: boolean) => void;
+}
+
+export function NewOrganization({ onOpen }: NewOrganizationFormProps) {
+  const { form, mutateAsync, isPending } = useNewOrganization({ onOpen });
   const [logoPreview, setLogoPreview] = useState<string | null>(null);
   const [currentStep, setCurrentStep] = useState<Step>("form");
   const logoInputRef = useRef<HTMLInputElement>(null);
@@ -95,13 +103,16 @@ export function NewOrganization() {
     setCurrentStep("form");
   };
 
-  const handleSubmit = (values: any) => {
+  const handleSubmit = async (values: NewOrganizationProps) => {
     const payload = {
       ...values,
-      latitude: coordinates.lat,
-      longitude: coordinates.lng,
+      slug: createUniqueSlug(values.name),
+      location: {
+        x: coordinates.lat,
+        y: coordinates.lng,
+      },
     };
-    mutateAsync(payload);
+    await mutateAsync(payload);
   };
 
   return (
@@ -378,19 +389,6 @@ export function NewOrganization() {
                 onPositionChange={setCoordinates}
               />
             </div>
-
-            {coordinates.lat && coordinates.lng && (
-              <div className="bg-muted/50 mt-4 rounded-lg border p-4">
-                <p className="text-sm">
-                  <strong>Coordenadas selecionadas:</strong>
-                </p>
-                <p className="text-muted-foreground font-mono text-sm">
-                  Latitude: {coordinates.lat.toFixed(7)}
-                  <br />
-                  Longitude: {coordinates.lng.toFixed(7)}
-                </p>
-              </div>
-            )}
           </div>
         )}
       </div>
@@ -411,8 +409,9 @@ export function NewOrganization() {
             </Button>
             <Button
               onClick={form.handleSubmit(handleSubmit)}
-              disabled={!coordinates.lat || !coordinates.lng}
+              disabled={!coordinates.lat || !coordinates.lng || isPending}
             >
+              {isPending && <Spinner />}
               Criar estabelecimento
             </Button>
           </>

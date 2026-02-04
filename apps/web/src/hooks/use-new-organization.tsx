@@ -1,8 +1,10 @@
 import { standardSchemaResolver } from "@hookform/resolvers/standard-schema";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import z from "zod";
 import { auth } from "@/lib/auth";
+import { authKeys } from "./use-auth-query";
+import { toast } from "sonner";
 
 const newOrganizationSchema = z.object({
   name: z
@@ -32,32 +34,52 @@ const newOrganizationSchema = z.object({
     .min(1, "O estado é obrigatório"),
 });
 
-type NewOrganizationProps = z.infer<typeof newOrganizationSchema>;
+export type NewOrganizationProps = z.infer<typeof newOrganizationSchema>;
 
-const onSubmit = async (values: NewOrganizationProps) => {
-  await auth.organization.create(
+const onSubmit = async (
+  values: NewOrganizationProps & {
+    slug: string;
+    location: {
+      x: number;
+      y: number;
+    };
+  },
+) => {
+  return auth.organization.create(
     {
       ...values,
     },
     {
-      onError(context) {
-        if (context.error.message) {
-          alert(context.error.message);
-        } else {
-          alert("Falha no processo de criação da organização");
-        }
+      onError: ({ error }) => {
+        throw new Error(error.message);
       },
     },
   );
 };
 
-export function useNewOrganization() {
+interface NewOrganizationHookProps {
+  onOpen: (value: boolean) => void;
+}
+
+export function useNewOrganization({ onOpen }: NewOrganizationHookProps) {
+  const queryClient = useQueryClient();
   const form = useForm<NewOrganizationProps>({
     resolver: standardSchemaResolver(newOrganizationSchema),
   });
 
   const mutationNewOrganization = useMutation({
     mutationFn: onSubmit,
+    onSuccess: async ({ data }) => {
+      await auth.organization.setActive({ organizationId: data?.id });
+      queryClient.invalidateQueries();
+      toast.success("Estabelecimento criado com sucesso!");
+      onOpen(false);
+    },
+    onError: ({ message }) => {
+      toast.error(
+        message ?? "Ocorreu um erro ao tentar criar seu estabelecimento.",
+      );
+    },
   });
 
   return {

@@ -3,8 +3,8 @@ import { Button } from "../ui/button";
 
 export function Notifications() {
   return (
-    <Button variant="outline" className="rounded-full size-10">
-      <Bell />
+    <Button variant="outline" className="size-10 rounded-full">
+      <Bell className="h-full w-full" />
     </Button>
   );
 }

@@ -19,6 +19,7 @@ import { Route as ApplicationScheduleIndexRouteImport } from './pages/_applicati
 import { Route as ApplicationReviewsIndexRouteImport } from './pages/_application/reviews/index'
 import { Route as ApplicationProfessionalsIndexRouteImport } from './pages/_application/professionals/index'
 import { Route as ApplicationProductsIndexRouteImport } from './pages/_application/products/index'
+import { Route as ApplicationPlansIndexRouteImport } from './pages/_application/plans/index'
 import { Route as ApplicationOverviewIndexRouteImport } from './pages/_application/overview/index'
 import { Route as ApplicationClientsIndexRouteImport } from './pages/_application/clients/index'
 import { Route as ApplicationBookingsIndexRouteImport } from './pages/_application/bookings/index'
@@ -75,6 +76,11 @@ const ApplicationProductsIndexRoute =
     path: '/products/',
     getParentRoute: () => ApplicationLayoutRoute,
   } as any)
+const ApplicationPlansIndexRoute = ApplicationPlansIndexRouteImport.update({
+  id: '/plans/',
+  path: '/plans/',
+  getParentRoute: () => ApplicationLayoutRoute,
+} as any)
 const ApplicationOverviewIndexRoute =
   ApplicationOverviewIndexRouteImport.update({
     id: '/overview/',
@@ -98,6 +104,7 @@ export interface FileRoutesByFullPath {
   '/bookings/': typeof ApplicationBookingsIndexRoute
   '/clients/': typeof ApplicationClientsIndexRoute
   '/overview/': typeof ApplicationOverviewIndexRoute
+  '/plans/': typeof ApplicationPlansIndexRoute
   '/products/': typeof ApplicationProductsIndexRoute
   '/professionals/': typeof ApplicationProfessionalsIndexRoute
   '/reviews/': typeof ApplicationReviewsIndexRoute
@@ -112,6 +119,7 @@ export interface FileRoutesByTo {
   '/bookings': typeof ApplicationBookingsIndexRoute
   '/clients': typeof ApplicationClientsIndexRoute
   '/overview': typeof ApplicationOverviewIndexRoute
+  '/plans': typeof ApplicationPlansIndexRoute
   '/products': typeof ApplicationProductsIndexRoute
   '/professionals': typeof ApplicationProfessionalsIndexRoute
   '/reviews': typeof ApplicationReviewsIndexRoute
@@ -128,6 +136,7 @@ export interface FileRoutesById {
   '/_application/bookings/': typeof ApplicationBookingsIndexRoute
   '/_application/clients/': typeof ApplicationClientsIndexRoute
   '/_application/overview/': typeof ApplicationOverviewIndexRoute
+  '/_application/plans/': typeof ApplicationPlansIndexRoute
   '/_application/products/': typeof ApplicationProductsIndexRoute
   '/_application/professionals/': typeof ApplicationProfessionalsIndexRoute
   '/_application/reviews/': typeof ApplicationReviewsIndexRoute
@@ -144,6 +153,7 @@ export interface FileRouteTypes {
     | '/bookings/'
     | '/clients/'
     | '/overview/'
+    | '/plans/'
     | '/products/'
     | '/professionals/'
     | '/reviews/'
@@ -158,6 +168,7 @@ export interface FileRouteTypes {
     | '/bookings'
     | '/clients'
     | '/overview'
+    | '/plans'
     | '/products'
     | '/professionals'
     | '/reviews'
@@ -173,6 +184,7 @@ export interface FileRouteTypes {
     | '/_application/bookings/'
     | '/_application/clients/'
     | '/_application/overview/'
+    | '/_application/plans/'
     | '/_application/products/'
     | '/_application/professionals/'
     | '/_application/reviews/'
@@ -260,6 +272,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApplicationProductsIndexRouteImport
       parentRoute: typeof ApplicationLayoutRoute
     }
+    '/_application/plans/': {
+      id: '/_application/plans/'
+      path: '/plans'
+      fullPath: '/plans/'
+      preLoaderRoute: typeof ApplicationPlansIndexRouteImport
+      parentRoute: typeof ApplicationLayoutRoute
+    }
     '/_application/overview/': {
       id: '/_application/overview/'
       path: '/overview'
@@ -288,6 +307,7 @@ interface ApplicationLayoutRouteChildren {
   ApplicationBookingsIndexRoute: typeof ApplicationBookingsIndexRoute
   ApplicationClientsIndexRoute: typeof ApplicationClientsIndexRoute
   ApplicationOverviewIndexRoute: typeof ApplicationOverviewIndexRoute
+  ApplicationPlansIndexRoute: typeof ApplicationPlansIndexRoute
   ApplicationProductsIndexRoute: typeof ApplicationProductsIndexRoute
   ApplicationProfessionalsIndexRoute: typeof ApplicationProfessionalsIndexRoute
   ApplicationReviewsIndexRoute: typeof ApplicationReviewsIndexRoute
@@ -300,6 +320,7 @@ const ApplicationLayoutRouteChildren: ApplicationLayoutRouteChildren = {
   ApplicationBookingsIndexRoute: ApplicationBookingsIndexRoute,
   ApplicationClientsIndexRoute: ApplicationClientsIndexRoute,
   ApplicationOverviewIndexRoute: ApplicationOverviewIndexRoute,
+  ApplicationPlansIndexRoute: ApplicationPlansIndexRoute,
   ApplicationProductsIndexRoute: ApplicationProductsIndexRoute,
   ApplicationProfessionalsIndexRoute: ApplicationProfessionalsIndexRoute,
   ApplicationReviewsIndexRoute: ApplicationReviewsIndexRoute,

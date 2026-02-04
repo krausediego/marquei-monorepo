@@ -1,4 +1,3 @@
-import { useRouter } from "@tanstack/react-router";
 import {
   CheckIcon,
   ChevronsUpDownIcon,
@@ -6,7 +5,7 @@ import {
   PlusCircle,
   Store,
 } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Command,
@@ -29,9 +28,12 @@ import { cn } from "@/lib/utils";
 import { Dialog, DialogTrigger } from "../ui/dialog";
 import { Separator } from "../ui/separator";
 import { NewOrganization } from "./new-organization";
+import { useDialogUnmount } from "@/hooks/use-dialog-unmount";
 
 export function Organization() {
   const [open, setOpen] = useState(false);
+  const [dialogOpen, setDialogOpen] = useState(false);
+  const shouldRenderContent = useDialogUnmount(dialogOpen);
   const { organizationId } = useAuth();
   const isMobile = useIsMobile();
 
@@ -52,7 +54,7 @@ export function Organization() {
   const organization = organizations?.find((org) => org.id === organizationId);
 
   return (
-    <Dialog>
+    <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
       <Popover onOpenChange={setOpen} open={open}>
         <PopoverTrigger asChild>
           <Button
@@ -63,12 +65,7 @@ export function Organization() {
             variant="outline"
           >
             <div>
-              {isPending ? (
-                <>
-                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                  Trocando...
-                </>
-              ) : organizationId ? (
+              {organizationId ? (
                 <div className="flex items-center gap-2">
                   <div className="bg-muted-foreground/20 rounded-md p-2">
                     <Store className="size-5" />
@@ -82,7 +79,10 @@ export function Organization() {
                   </div>
                 </div>
               ) : (
-                "Selecione um estabelecimento..."
+                <div className="text-muted-foreground flex items-center gap-2">
+                  <Store />
+                  <p>Crie agora...</p>
+                </div>
               )}
             </div>
             <ChevronsUpDownIcon className="opacity-50" />
@@ -121,7 +121,9 @@ export function Organization() {
                     />
                   </CommandItem>
                 ))}
-                <Separator className="my-2" />
+                {Array.isArray(organizations) && organizations.length >= 1 && (
+                  <Separator className="my-2" />
+                )}
                 <DialogTrigger asChild>
                   <Button className="w-full" variant="secondary">
                     <PlusCircle /> Novo estabelecimento
@@ -133,7 +135,7 @@ export function Organization() {
         </PopoverContent>
       </Popover>
 
-      <NewOrganization />
+      {shouldRenderContent && <NewOrganization onOpen={setDialogOpen} />}
     </Dialog>
   );
 }

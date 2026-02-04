@@ -1,13 +1,13 @@
 export type SubscriptionStatus =
-  | 'active'
-  | 'canceled'
-  | 'incomplete'
-  | 'incomplete_expired'
-  | 'past_due'
-  | 'trialing'
-  | 'unpaid';
+  | "active"
+  | "canceled"
+  | "incomplete"
+  | "incomplete_expired"
+  | "past_due"
+  | "trialing"
+  | "unpaid";
 
-export type PlanName = 'standard' | 'premium' | 'pro';
+export type PlanName = "standard" | "premium" | "pro";
 
 export interface PlanLimits extends Record<string, unknown> {
   professionals: number;
@@ -26,11 +26,12 @@ export interface OrganizationSubscription {
   id: string;
   status: SubscriptionStatus;
   planId: PlanName;
-  currentPeriodStart: Date | null;
-  currentPeriodEnd: Date | null;
-  cancelAtPeriodEnd: boolean | null;
-  trialEnd: Date | null;
+  currentPeriodStart?: Date;
+  currentPeriodEnd?: Date;
+  cancelAtPeriodEnd: boolean;
+  trialEnd?: Date;
   organizationId: string;
+  limits: PlanLimits;
 }
 
 export interface SubscriptionFeatures {

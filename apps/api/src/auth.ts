@@ -1,5 +1,5 @@
 import { stripe } from "@better-auth/stripe";
-import { betterAuth } from "better-auth";
+import { APIError, betterAuth } from "better-auth";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
 import { openAPI, organization } from "better-auth/plugins";
 import Stripe from "stripe";
@@ -33,6 +33,27 @@ export const auth = betterAuth({
           },
         },
       },
+      organizationHooks: {
+        beforeCreateOrganization: async (data) => {
+          const existing = await db.query.organizations.findFirst({
+            where(fields, { eq }) {
+              return eq(fields.phone, data.organization.phone);
+            },
+          });
+
+          if (existing) {
+            throw new APIError("BAD_REQUEST", {
+              message: "Telefone já está em uso, utilize outro",
+            });
+          }
+
+          return {
+            data: {
+              ...data,
+            },
+          };
+        },
+      },
     }),
     stripe({
       stripeClient,
@@ -46,7 +67,10 @@ export const auth = betterAuth({
         authorizeReference: async ({ user, session, referenceId, action }) => {
           const org = await db.query.members.findFirst({
             where(fields, { and, eq }) {
-              return and(eq(fields.organizationId, referenceId), eq(fields.userId, user.id));
+              return and(
+                eq(fields.organizationId, referenceId),
+                eq(fields.userId, user.id),
+              );
             },
           });
 

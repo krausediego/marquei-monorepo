@@ -67,8 +67,17 @@ export function Organization() {
             <div>
               {organizationId ? (
                 <div className="flex items-center gap-2">
-                  <div className="bg-muted-foreground/20 rounded-md p-2">
-                    <Store className="size-5" />
+                  <div
+                    className={cn(
+                      "bg-muted-foreground/20 flex size-8 items-center justify-center rounded-md",
+                      organization?.logo && "bg-transparent",
+                    )}
+                  >
+                    {organization?.logo ? (
+                      <img src={organization.logo} className="rounded-md" />
+                    ) : (
+                      <Store />
+                    )}
                   </div>
                   <div className="max-w-37.5">
                     <p className="truncate">{organization?.name}</p>
@@ -100,8 +109,17 @@ export function Organization() {
                     value={organization.id}
                   >
                     <div className="flex items-center gap-2">
-                      <div className="bg-muted-foreground/20 rounded-md p-2">
-                        <Store className="size-5" />
+                      <div
+                        className={cn(
+                          "bg-muted-foreground/20 flex size-8 items-center justify-center rounded-md",
+                          organization?.logo && "bg-transparent",
+                        )}
+                      >
+                        {organization?.logo ? (
+                          <img src={organization.logo} className="rounded-md" />
+                        ) : (
+                          <Store />
+                        )}
                       </div>
                       <div className="max-w-37.5">
                         <p className="truncate">{organization?.name}</p>

@@ -3,19 +3,25 @@ import AdminPanelLayout from "@/components/admin-panel/admin-panel-layout";
 import { AuthProvider } from "@/contexts/auth-context";
 import { auth } from "@/lib/auth";
 import { queryClient } from "@/lib/query-client";
+import { AdminPanelSkeleton } from "@/components/admin-panel/admin-panel-skeleton";
 
 export const Route = createFileRoute("/_application")({
-  beforeLoad: async () => {
-    const { data: session } = await auth.getSession();
-
-    if (!session?.user) {
-      throw redirect({ to: "/sign-in" });
-    }
-
-    queryClient.setQueryData(["auth", "session"], session);
-
-    return { session };
+  loader: async () => {
+    return queryClient.ensureQueryData({
+      queryKey: ["auth", "session"],
+      queryFn: async () => {
+        const { data: session } = await auth.getSession();
+        if (!session?.user) {
+          throw redirect({ to: "/sign-in" });
+        }
+        return session;
+      },
+      staleTime: 5 * 60 * 1000, // 5 minutows
+    });
   },
+  pendingComponent: AdminPanelSkeleton,
+  pendingMs: 200,
+  pendingMinMs: 500,
   component: RouteComponent,
 });
 

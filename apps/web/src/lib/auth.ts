@@ -2,6 +2,13 @@ import { createAuthClient } from "better-auth/react";
 import { organizationClient } from "better-auth/client/plugins";
 import { stripeClient } from "@better-auth/stripe/client";
 
+const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+
+const customFetch: typeof fetch = async (...args) => {
+  await delay(2000); // 2 segundos
+  return fetch(...args);
+};
+
 export const auth = createAuthClient({
   baseURL: import.meta.env.VITE_BACKEND_BASE_URL,
   basePath: "/auth",
@@ -28,4 +35,8 @@ export const auth = createAuthClient({
       subscription: true,
     }),
   ],
+  fetchOptions: {
+    credentials: "include",
+    customFetchImpl: customFetch,
+  },
 });

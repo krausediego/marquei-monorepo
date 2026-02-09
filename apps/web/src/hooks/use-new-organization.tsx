@@ -3,8 +3,9 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import z from "zod";
 import { auth } from "@/lib/auth";
-import { authKeys } from "./use-auth-query";
 import { toast } from "sonner";
+import { client } from "@/lib/treaty";
+import { useAuth } from "@/contexts/auth-context";
 
 const newOrganizationSchema = z.object({
   name: z
@@ -59,9 +60,10 @@ const onSubmit = async (
 
 interface NewOrganizationHookProps {
   onOpen: (value: boolean) => void;
+  file?: File;
 }
 
-export function useNewOrganization({ onOpen }: NewOrganizationHookProps) {
+export function useNewOrganization({ onOpen, file }: NewOrganizationHookProps) {
   const queryClient = useQueryClient();
   const form = useForm<NewOrganizationProps>({
     resolver: standardSchemaResolver(newOrganizationSchema),
@@ -71,6 +73,11 @@ export function useNewOrganization({ onOpen }: NewOrganizationHookProps) {
     mutationFn: onSubmit,
     onSuccess: async ({ data }) => {
       await auth.organization.setActive({ organizationId: data?.id });
+
+      if (file) {
+        await client["upload-logo"].post({ file });
+      }
+
       queryClient.invalidateQueries();
       toast.success("Estabelecimento criado com sucesso!");
       onOpen(false);

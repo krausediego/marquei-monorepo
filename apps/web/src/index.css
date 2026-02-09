@@ -45,6 +45,7 @@
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
   --font-sans: "Inter", sans-serif;
+  --animate-loading-bar: loading-bar 1.5s ease-in-out infinite;
 }
 
 :root {
@@ -122,6 +123,15 @@
   }
   body {
     @apply bg-background text-foreground;
+  }
+}
+
+@keyframes loading-bar {
+  0% {
+    left: -33%;
+  }
+  100% {
+    left: 100%;
   }
 }
 

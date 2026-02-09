@@ -32,11 +32,15 @@ interface NewOrganizationFormProps {
 }
 
 export function NewOrganization({ onOpen }: NewOrganizationFormProps) {
-  const { form, mutateAsync, isPending } = useNewOrganization({ onOpen });
   const [logoPreview, setLogoPreview] = useState<string | null>(null);
+  const [logoFile, setLogoFile] = useState<File | undefined>();
   const [currentStep, setCurrentStep] = useState<Step>("form");
   const logoInputRef = useRef<HTMLInputElement>(null);
   const { coordinates, setCoordinates } = useCoordinates();
+  const { form, mutateAsync, isPending } = useNewOrganization({
+    onOpen,
+    file: logoFile,
+  });
 
   const postalCode = form.watch("postalCode");
   const street = form.watch("street");
@@ -65,6 +69,8 @@ export function NewOrganization({ onOpen }: NewOrganizationFormProps) {
   const handleLogoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
+      setLogoFile(file);
+
       const reader = new FileReader();
       reader.onloadend = () => {
         setLogoPreview(reader.result as string);

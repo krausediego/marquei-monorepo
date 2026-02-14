@@ -1,7 +1,8 @@
+import cors from "@elysiajs/cors";
 import openapi from "@elysiajs/openapi";
 import { Elysia, t } from "elysia";
 import { OpenAPI } from "@/http/plugins/better-auth";
-import cors from "@elysiajs/cors";
+import { membersRoutes } from "./routes/members";
 import { uploadLogo } from "./routes/upload-logo";
 
 export const app = new Elysia()
@@ -11,7 +12,7 @@ export const app = new Elysia()
         components: await OpenAPI.components,
         paths: await OpenAPI.getPaths(),
       },
-    }),
+    })
   )
   .use(
     cors({
@@ -19,8 +20,9 @@ export const app = new Elysia()
       methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
       allowedHeaders: ["Content-Type", "Authorization"],
       origin: "http://localhost:5173",
-    }),
+    })
   )
-  .use(uploadLogo);
+  .use(uploadLogo)
+  .use(membersRoutes);
 
 export type App = typeof app;

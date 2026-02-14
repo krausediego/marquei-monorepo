@@ -8,10 +8,10 @@
     "db:migrate": "bun --env-file .env --bun drizzle-kit migrate"
   },
   "dependencies": {
-    "@repo/shared": "workspace:*",
     "@better-auth/stripe": "^1.4.17",
     "@elysiajs/cors": "^1.4.1",
     "@elysiajs/openapi": "^1.4.14",
+    "@repo/shared": "workspace:*",
     "@sinclair/typebox": "^0.34.48",
     "better-auth": "^1.4.17",
     "cloudinary": "^2.9.0",

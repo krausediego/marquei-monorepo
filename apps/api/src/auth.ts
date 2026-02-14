@@ -14,6 +14,7 @@ export const auth = betterAuth({
   basePath: "/auth",
   baseURL: "http://localhost:5173",
   trustedOrigins: ["http://localhost:5173"],
+  experimental: { joins: true },
   plugins: [
     openAPI(),
     organization({
@@ -69,7 +70,7 @@ export const auth = betterAuth({
             where(fields, { and, eq }) {
               return and(
                 eq(fields.organizationId, referenceId),
-                eq(fields.userId, user.id),
+                eq(fields.userId, user.id)
               );
             },
           });

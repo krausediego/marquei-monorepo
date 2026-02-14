@@ -1,40 +1,28 @@
 import { Elysia, t } from "elysia";
 import { betterAuthPlugin } from "../plugins/better-auth";
 import { CloudinaryService } from "@/app/lib/clodinary";
+import { uploadLogoFunction } from "@/app/functions/upload-logo";
 
 export const uploadLogo = new Elysia().use(betterAuthPlugin).post(
   "/upload-logo",
-  async ({ body, session }) => {
+  async ({ body, session, status }) => {
     const { file } = body;
 
-    if (!file.type.startsWith("image/")) {
-      throw new Error("File must be a image");
+    const organizationId = session.activeOrganizationId;
+
+    if (!organizationId) {
+      return status(404, {
+        message: "Não existe um estabelecimento vinculado",
+      });
     }
 
-    const publicId = `org_${session.activeOrganizationId}`;
-
-    const result = await CloudinaryService.uploadFromFile(file, {
-      folder: "organizations/logos",
-      public_id: publicId,
-      transformation: {
-        width: 500,
-        height: 500,
-        crop: "fill",
-        quality: "auto",
-        format: "auto",
-      },
+    const uploaded = await uploadLogoFunction({
+      file,
+      organizationId,
     });
 
     return {
-      success: true,
-      data: {
-        publicId: result.public_id,
-        url: result.secure_url,
-        optimizedUrl: CloudinaryService.getOptimizedUrl(result.public_id, {
-          width: 200,
-          height: 200,
-        }),
-      },
+      ...uploaded,
     };
   },
   {
@@ -45,5 +33,9 @@ export const uploadLogo = new Elysia().use(betterAuthPlugin).post(
         maxSize: 5 * 1024 * 1024, // 5MB
       }),
     }),
+    detail: {
+      summary: "Upload logo",
+      tags: ["Enterprise"],
+    },
   },
 );

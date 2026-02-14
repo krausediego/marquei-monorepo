@@ -1,23 +1,26 @@
 {
   "name": "meu-monorepo",
   "module": "index.ts",
-  "type": "module",
-  "private": true,
-  "packageManager": "bun@1.2.21",
-  "workspaces": [
-    "apps/*",
-    "packages/*"
-  ],
-  "scripts": {
-    "dev": "turbo dev",
-    "build": "turbo build",
-    "lint": "turbo lint"
-  },
   "devDependencies": {
     "@types/bun": "latest",
     "turbo": "^2.8.1"
   },
   "peerDependencies": {
     "typescript": "^5"
+  },
+  "packageManager": "bun@1.2.21",
+  "private": true,
+  "scripts": {
+    "dev": "turbo dev",
+    "build": "turbo build",
+    "lint": "turbo lint"
+  },
+  "type": "module",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "dependencies": {
+    "drizzle-typebox": "^0.3.3"
   }
 }

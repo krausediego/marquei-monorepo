@@ -1,11 +1,10 @@
 import { standardSchemaResolver } from "@hookform/resolvers/standard-schema";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 import z from "zod";
 import { auth } from "@/lib/auth";
-import { toast } from "sonner";
 import { client } from "@/lib/treaty";
-import { useAuth } from "@/contexts/auth-context";
 
 const newOrganizationSchema = z.object({
   name: z

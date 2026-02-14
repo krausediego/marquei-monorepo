@@ -1,19 +1,8 @@
-import { accounts } from "./accounts";
-import { invitations } from "./invitations";
-import { members } from "./members";
-import { organizations } from "./organizations";
-import { sessions } from "./sessions";
-import { subscriptions } from "./subscriptions";
-import { users } from "./users";
-import { verifications } from "./verifications";
-
-export const schema = {
-  users,
-  sessions,
-  accounts,
-  verifications,
-  organizations,
-  invitations,
-  subscriptions,
-  members,
-} as const;
+export * from "./accounts";
+export * from "./invitations";
+export * from "./members";
+export * from "./organizations";
+export * from "./sessions";
+export * from "./subscriptions";
+export * from "./users";
+export * from "./verifications";

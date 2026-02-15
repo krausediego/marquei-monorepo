@@ -4,13 +4,23 @@
     "module": "ES2022",
     "moduleResolution": "node",
     "paths": {
-      "@/*": ["./src/*"],
+      "@/*": [
+        "./src/*"
+      ],
+      "@backend/*": [
+        "./src/*"
+      ]
     },
-    "types": ["bun-types", "./src/types/elysia.d.ts"],
+    "types": [
+      "bun-types",
+      "./src/types/elysia.d.ts"
+    ],
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "strict": true,
     "skipLibCheck": true,
   },
-  "include": ["src"],
+  "include": [
+    "src"
+  ],
 }

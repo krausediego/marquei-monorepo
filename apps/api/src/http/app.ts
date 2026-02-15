@@ -2,8 +2,9 @@ import cors from "@elysiajs/cors";
 import openapi from "@elysiajs/openapi";
 import { Elysia, t } from "elysia";
 import { OpenAPI } from "@/http/plugins/better-auth";
-import { membersRoutes } from "./routes/members";
-import { uploadLogo } from "./routes/upload-logo";
+import { membersRoutes } from "@backend/http/routes/members";
+import { uploadLogo } from "@backend/http/routes/upload-logo";
+import { testRout } from "@backend/http/routes/test";
 
 export const app = new Elysia()
   .use(
@@ -23,6 +24,7 @@ export const app = new Elysia()
     })
   )
   .use(uploadLogo)
-  .use(membersRoutes);
+  .use(membersRoutes)
+  .use(testRout);
 
 export type App = typeof app;

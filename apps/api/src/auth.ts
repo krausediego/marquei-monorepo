@@ -14,7 +14,6 @@ export const auth = betterAuth({
   basePath: "/auth",
   baseURL: "http://localhost:5173",
   trustedOrigins: ["http://localhost:5173"],
-  experimental: { joins: true },
   plugins: [
     openAPI(),
     organization({

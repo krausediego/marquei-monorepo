@@ -41,8 +41,8 @@ export const membersRoutes = new Elysia().use(betterAuthPlugin).get(
       200: t.Array(memberSchema),
     },
     detail: {
+      tags: ["Organization"],
       summary: "Find all members of organization",
-      tags: ["Enterprise"],
     },
   }
 );

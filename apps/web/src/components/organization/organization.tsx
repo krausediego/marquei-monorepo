@@ -1,10 +1,4 @@
-import {
-  CheckIcon,
-  ChevronsUpDownIcon,
-  Loader2,
-  PlusCircle,
-  Store,
-} from "lucide-react";
+import { CheckIcon, ChevronsUpDownIcon, PlusCircle, Store } from "lucide-react";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
@@ -29,8 +23,10 @@ import { Dialog, DialogTrigger } from "../ui/dialog";
 import { Separator } from "../ui/separator";
 import { NewOrganization } from "./new-organization";
 import { useDialogUnmount } from "@/hooks/use-dialog-unmount";
+import { useQueryClient } from "@tanstack/react-query";
 
 export function Organization() {
+  const queryClient = useQueryClient();
   const [open, setOpen] = useState(false);
   const [dialogOpen, setDialogOpen] = useState(false);
   const shouldRenderContent = useDialogUnmount(dialogOpen);
@@ -44,6 +40,7 @@ export function Organization() {
     switchOrg(id, {
       onSuccess: () => {
         setOpen(false);
+        queryClient.invalidateQueries();
       },
       onError: (error) => {
         console.error("Error on change organization:", error);

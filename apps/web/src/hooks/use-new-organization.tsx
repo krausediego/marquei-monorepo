@@ -77,7 +77,7 @@ export function useNewOrganization({ onOpen, file }: NewOrganizationHookProps) {
         await client["upload-logo"].post({ file });
       }
 
-      queryClient.invalidateQueries();
+      queryClient.refetchQueries();
       toast.success("Estabelecimento criado com sucesso!");
       onOpen(false);
     },

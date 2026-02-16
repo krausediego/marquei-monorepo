@@ -5,6 +5,8 @@ import { OpenAPI } from "@/http/plugins/better-auth";
 import { membersRoutes } from "@backend/http/routes/members";
 import { uploadLogo } from "@backend/http/routes/upload-logo";
 import { testRout } from "@backend/http/routes/test";
+import { inviteMemberRoute } from "./routes/invite-member";
+import { sseConnection } from "./plugins/sse";
 
 export const app = new Elysia()
   .use(
@@ -23,7 +25,9 @@ export const app = new Elysia()
       origin: "http://localhost:5173",
     })
   )
+  .use(sseConnection)
   .use(uploadLogo)
+  .use(inviteMemberRoute)
   .use(membersRoutes)
   .use(testRout);
 

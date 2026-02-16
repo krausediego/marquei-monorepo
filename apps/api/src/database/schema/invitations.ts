@@ -25,7 +25,7 @@ export const invitations = pgTable(
   (table) => [
     index("invitations_organizationId_idx").on(table.organizationId),
     index("invitations_email_idx").on(table.email),
-  ],
+  ]
 );
 
 export const invitationsRelations = relations(invitations, ({ one }) => ({

@@ -34,8 +34,8 @@ export const uploadLogo = new Elysia().use(betterAuthPlugin).post(
       }),
     }),
     detail: {
+      tags: ["Organization"],
       summary: "Upload logo",
-      tags: ["Enterprise"],
     },
-  },
+  }
 );

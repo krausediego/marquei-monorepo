@@ -4,6 +4,7 @@ import { AuthProvider } from "@/contexts/auth-context";
 import { auth } from "@/lib/auth";
 import { queryClient } from "@/lib/query-client";
 import { AdminPanelSkeleton } from "@/components/admin-panel/admin-panel-skeleton";
+import { useNotificationStream } from "@/hooks/use-notification-stream";
 
 export const Route = createFileRoute("/_application")({
   loader: async () => {
@@ -16,7 +17,7 @@ export const Route = createFileRoute("/_application")({
         }
         return session;
       },
-      staleTime: 5 * 60 * 1000, // 5 minutows
+      staleTime: 5 * 60 * 1000, // 5 minutos
     });
   },
   pendingComponent: AdminPanelSkeleton,
@@ -26,6 +27,8 @@ export const Route = createFileRoute("/_application")({
 });
 
 function RouteComponent() {
+  useNotificationStream();
+
   return (
     <AuthProvider>
       <AdminPanelLayout>

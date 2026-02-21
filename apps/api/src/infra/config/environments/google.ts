@@ -2,16 +2,16 @@ import { TypeCompiler } from "@sinclair/typebox/compiler";
 import { t } from "elysia";
 
 const envSchema = t.Object({
-  PORT: t.String(),
-  DATABASE_URL: t.String({ format: "uri" }),
+  GOOGLE_CLIENT_ID: t.String(),
+  GOOGLE_CLIENT_SECRET: t.String(),
 });
 
 const compiler = TypeCompiler.Compile(envSchema);
 
-export const appEnv = (() => {
+export const googleEnv = (() => {
   const rawEnv = {
-    PORT: Bun.env.PORT,
-    DATABASE_URL: Bun.env.DATABASE_URL,
+    GOOGLE_CLIENT_ID: Bun.env.GOOGLE_CLIENT_ID,
+    GOOGLE_CLIENT_SECRET: Bun.env.GOOGLE_CLIENT_SECRET,
   };
 
   const encodedEnv = compiler.Encode(rawEnv);

@@ -13,7 +13,6 @@
     },
     "types": [
       "bun-types",
-      "./src/types/elysia.d.ts"
     ],
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,

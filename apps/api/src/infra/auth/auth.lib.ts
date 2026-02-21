@@ -3,15 +3,15 @@ import { APIError, betterAuth } from "better-auth";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
 import { openAPI, organization } from "better-auth/plugins";
 import Stripe from "stripe";
-import { env } from "@/env";
+import { googleEnv, stripeEnv } from "@/infra/config";
 import { db } from "@/infra/database/client";
 
-const stripeClient = new Stripe(env.STRIPE_SECRET_KEY, {
+const stripeClient = new Stripe(stripeEnv.STRIPE_SECRET_KEY, {
   apiVersion: "2026-01-28.clover",
 });
 
 export const auth = betterAuth({
-  basePath: "/auth",
+  basePath: "/api/v1/auth",
   baseURL: "http://localhost:5173",
   trustedOrigins: ["http://localhost:5173"],
   plugins: [
@@ -57,7 +57,7 @@ export const auth = betterAuth({
     }),
     stripe({
       stripeClient,
-      stripeWebhookSecret: env.STRIPE_WEBHOOK_SECRET,
+      stripeWebhookSecret: stripeEnv.STRIPE_WEBHOOK_SECRET,
       createCustomerOnSignUp: true,
       organization: {
         enabled: true,
@@ -165,8 +165,8 @@ export const auth = betterAuth({
   },
   socialProviders: {
     google: {
-      clientId: env.GOOGLE_CLIENT_ID,
-      clientSecret: env.GOOGLE_CLIENT_SECRET,
+      clientId: googleEnv.GOOGLE_CLIENT_ID,
+      clientSecret: googleEnv.GOOGLE_CLIENT_SECRET,
     },
   },
 });

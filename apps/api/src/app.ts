@@ -13,7 +13,7 @@ export class App {
     this.app = new Elysia();
   }
 
-  async setupPlugins(): Promise<Promise<this>> {
+  async setupPlugins(): Promise<this> {
     this.app.use(
       openapi({
         documentation: {

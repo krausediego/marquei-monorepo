@@ -1,5 +1,5 @@
 import type { App } from "./app";
-import { env } from "./env";
+import { appEnv } from "./infra";
 
 class ServerSetup {
   private app!: App;
@@ -7,9 +7,9 @@ class ServerSetup {
   async start() {
     this.app = (await import("./app")).default;
 
-    await this.app.setupPlugins().setupRoutes();
+    (await this.app.setupPlugins()).setupRoutes();
 
-    this.app.listen(Number(env.PORT));
+    this.app.listen(Number(appEnv.PORT));
   }
 
   async stop() {

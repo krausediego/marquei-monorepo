@@ -9,6 +9,7 @@
     "seed": "bun src/database/seed.ts"
   },
   "dependencies": {
+    "@aws-sdk/client-s3": "^3.995.0",
     "@better-auth/stripe": "^1.4.17",
     "@elysiajs/cors": "^1.4.1",
     "@elysiajs/openapi": "^1.4.14",

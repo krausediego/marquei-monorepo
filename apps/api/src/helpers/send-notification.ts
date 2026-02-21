@@ -1,4 +1,4 @@
-import { activeConnections } from "@/http/plugins/sse";
+import { activeConnections } from "@/routes/plugins";
 
 export function sendNotificationToUser(userId: string, notification: any) {
   const controller = activeConnections.get(userId);

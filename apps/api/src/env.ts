@@ -2,6 +2,7 @@ import { TypeCompiler } from "@sinclair/typebox/compiler";
 import { t } from "elysia";
 
 const envSchema = t.Object({
+  PORT: t.String(),
   DATABASE_URL: t.String({ format: "uri" }),
   STRIPE_SECRET_KEY: t.String(),
   STRIPE_PUBLISHABLE_KEY: t.String(),
@@ -17,6 +18,7 @@ const compiler = TypeCompiler.Compile(envSchema);
 
 export const env = (() => {
   const rawEnv = {
+    PORT: Bun.env.PORT,
     DATABASE_URL: Bun.env.DATABASE_URL,
     STRIPE_SECRET_KEY: Bun.env.STRIPE_SECRET_KEY,
     STRIPE_PUBLISHABLE_KEY: Bun.env.STRIPE_PUBLISHABLE_KEY,

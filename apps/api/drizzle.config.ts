@@ -1,12 +1,12 @@
+import { appEnv } from "@backend/infra";
 import { defineConfig } from "drizzle-kit";
-import { env } from "./src/env";
 
 export default defineConfig({
-  schema: "./src/database/schema/**",
-  out: "./src/database/migrations",
+  schema: "./src/infra/database/schema/**",
+  out: "./src/infra/database/migrations",
   dialect: "postgresql",
   dbCredentials: {
-    url: env.DATABASE_URL,
+    url: appEnv.DATABASE_URL,
   },
   casing: "snake_case",
 });

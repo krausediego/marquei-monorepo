@@ -8,6 +8,8 @@ export const adaptRoute = (controller: IController) =>
       ...((ctx.query as object) ?? {}),
     };
 
+    console.log(ctx);
+
     const httpResponse = await controller.handle({
       data,
       method: ctx.request.method,
@@ -15,6 +17,7 @@ export const adaptRoute = (controller: IController) =>
       locals: {
         traceId: ctx.traceId,
         organizationId: ctx.organizationId,
+        userId: ctx.user.id,
       },
     });
 

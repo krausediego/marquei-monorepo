@@ -8,6 +8,14 @@ export interface RouteSchema {
   query?: TObject;
   headers?: TObject;
   response?: Partial<Record<StatusCode, TSchema>>;
+  detail?: {
+    summary?: string;
+    description?: string;
+    tags?: string[];
+    operationId?: string;
+    deprecated?: boolean;
+    security?: Record<string, string[]>[];
+  };
 }
 
 // helper para garantir o autocomplete e inferência correta

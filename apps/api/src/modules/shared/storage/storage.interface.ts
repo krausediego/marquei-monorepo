@@ -4,9 +4,7 @@ export interface IStorage {
     params: Storage.MetadataParams
   ): Promise<Storage.MetadataResponse>;
   delete(params: Storage.DeleteParams): Promise<Storage.DeleteResponse>;
-  generateKey(
-    params: Storage.GenerateKeyParams
-  ): Promise<Storage.GenerateKeyResponse>;
+  generateKey(params: Storage.GenerateKeyParams): Storage.GenerateKeyResponse;
 }
 
 export namespace Storage {

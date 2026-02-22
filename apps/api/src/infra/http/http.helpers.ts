@@ -1,5 +1,6 @@
 import type {
   BadRequestError,
+  ConflictError,
   ForbiddenError,
   Http,
   InternalServerError,
@@ -10,6 +11,7 @@ type ErrorTypes =
   | BadRequestError
   | NotFoundError
   | ForbiddenError
+  | ConflictError
   | InternalServerError;
 
 export const ok = (data: Record<string, any>): Http.IResponse => ({

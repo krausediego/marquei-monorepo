@@ -4,14 +4,13 @@ import { defineSchema } from "@/infra";
 export const createOrganizationSchema = defineSchema({
   body: t.Object({
     name: t.String({ minLength: 1 }),
-    slug: t.String({ minLength: 1 }),
     description: t.String({ minLength: 1 }),
     phone: t.String({ minLength: 1 }),
     state: t.String({ minLength: 1 }),
     city: t.String({ minLength: 1 }),
     district: t.String({ minLength: 1 }),
     street: t.String({ minLength: 1 }),
-    number: t.String({ minLength: 1 }),
+    number: t.Number({ minLength: 1 }),
     location: t.Object({
       x: t.Number(),
       y: t.Number(),
@@ -25,6 +24,10 @@ export const createOrganizationSchema = defineSchema({
       message: t.String(),
       created: t.Boolean(),
     }),
+  },
+  detail: {
+    tags: ["Organization"],
+    summary: "Create organization",
   },
 });
 

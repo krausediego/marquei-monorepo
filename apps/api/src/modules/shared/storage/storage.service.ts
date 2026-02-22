@@ -63,10 +63,10 @@ export class StorageService implements IStorage {
     };
   }
 
-  async generateKey({
+  generateKey({
     folder,
     filename,
-  }: Storage.GenerateKeyParams): Promise<Storage.GenerateKeyResponse> {
+  }: Storage.GenerateKeyParams): Storage.GenerateKeyResponse {
     const sanitized = filename.replace(/[^a-zA-Z0-9._-]/g, "_");
 
     return {

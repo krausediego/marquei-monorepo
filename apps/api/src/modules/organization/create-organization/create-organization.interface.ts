@@ -5,7 +5,11 @@ export interface ICreateOrganization {
 }
 
 export namespace CreateOrganization {
-  export type Params = CreateOrganizationSchema.GetParams;
+  export type Params = {
+    organization: CreateOrganizationSchema.GetParams;
+    userId: string;
+    traceId: string;
+  };
 
   export type Response = CreateOrganizationSchema.GetResponse;
 }

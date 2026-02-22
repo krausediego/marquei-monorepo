@@ -15,6 +15,13 @@
       "when": 1769511542674,
       "tag": "0001_glamorous_inertia",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1771768082530,
+      "tag": "0002_bizarre_switch",
+      "breakpoints": true
     }
   ]
 }

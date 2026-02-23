@@ -21,12 +21,13 @@ export const accounts = pgTable(
     refreshTokenExpiresAt: timestamp("refresh_token_expires_at"),
     scope: text("scope"),
     password: text("password"),
-    createdAt: timestamp("created_at").notNull(),
+    createdAt: timestamp("created_at").defaultNow().notNull(),
     updatedAt: timestamp("updated_at")
       .$onUpdate(() => new Date())
+      .defaultNow()
       .notNull(),
   },
-  (table) => [index("accounts_userId_idx").on(table.userId)],
+  (table) => [index("accounts_userId_idx").on(table.userId)]
 );
 
 export const accountsRelations = relations(accounts, ({ one }) => ({

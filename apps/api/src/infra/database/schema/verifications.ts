@@ -10,10 +10,11 @@ export const verifications = pgTable(
     identifier: text("identifier").notNull(),
     value: text("value").notNull(),
     expiresAt: timestamp("expires_at").notNull(),
-    createdAt: timestamp("created_at").notNull(),
+    createdAt: timestamp("created_at").defaultNow().notNull(),
     updatedAt: timestamp("updated_at")
       .$onUpdate(() => new Date())
+      .defaultNow()
       .notNull(),
   },
-  (table) => [index("verifications_identifier_idx").on(table.identifier)],
+  (table) => [index("verifications_identifier_idx").on(table.identifier)]
 );

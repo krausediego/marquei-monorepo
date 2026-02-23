@@ -7,7 +7,8 @@ class ServerSetup {
   async start() {
     this.app = (await import("./app")).default;
 
-    (await this.app.setupPlugins()).setupRoutes();
+    await this.app.setupPlugins();
+    await this.app.setupRoutes();
 
     this.app.listen(Number(appEnv.PORT));
   }

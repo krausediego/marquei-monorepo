@@ -11,9 +11,10 @@ export const sessions = pgTable(
       .$defaultFn(() => randomUUIDv7()),
     expiresAt: timestamp("expires_at").notNull(),
     token: text("token").notNull().unique(),
-    createdAt: timestamp("created_at").notNull(),
+    createdAt: timestamp("created_at").defaultNow().notNull(),
     updatedAt: timestamp("updated_at")
       .$onUpdate(() => new Date())
+      .defaultNow()
       .notNull(),
     ipAddress: text("ip_address"),
     userAgent: text("user_agent"),
@@ -22,7 +23,7 @@ export const sessions = pgTable(
       .references(() => users.id, { onDelete: "cascade" }),
     activeOrganizationId: text("active_organization_id"),
   },
-  (table) => [index("sessions_userId_idx").on(table.userId)],
+  (table) => [index("sessions_userId_idx").on(table.userId)]
 );
 
 export const sessionsRelations = relations(sessions, ({ one }) => ({

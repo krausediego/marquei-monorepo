@@ -30,9 +30,9 @@ export class App {
         origin: "http://localhost:5173",
       })
     );
-    this.app.mount(auth.handler);
-    this.app.use(sseConnection);
     this.app.use(loggerPlugin);
+    this.app.use(sseConnection);
+    this.app.mount(auth.handler);
     return this;
   }
 

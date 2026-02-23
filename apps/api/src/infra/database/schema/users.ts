@@ -15,9 +15,10 @@ export const users = pgTable("users", {
   emailVerified: boolean("email_verified").default(false).notNull(),
   image: text("image"),
   stripeCustomerId: text("stripe_customer_id"),
-  createdAt: timestamp("created_at").notNull(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
   updatedAt: timestamp("updated_at")
     .$onUpdate(() => new Date())
+    .defaultNow()
     .notNull(),
 });
 

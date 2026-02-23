@@ -15,7 +15,7 @@ export class CreateOrganizationController implements IController {
     try {
       const content = await this.createOrganizationService().run({
         organization: data,
-        userId: locals.userId,
+        user: locals.user,
         traceId: locals.traceId,
       });
 

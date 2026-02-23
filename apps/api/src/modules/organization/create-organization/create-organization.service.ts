@@ -1,10 +1,13 @@
-import { BaseService } from "@/modules/shared";
-import type { CreateOrganization, ICreateOrganization } from ".";
-import { ConflictError, db, ILoggingManager } from "@/infra";
-import { setTraceId } from "@/helpers";
-import { IStorage } from "@/modules/shared/storage";
+import { pretty, render } from "@react-email/components";
+import React from "react";
+import { generateUniqueSlug, setTraceId } from "@/helpers";
+import { appEnv, ConflictError, db, type ILoggingManager } from "@/infra";
 import * as schema from "@/infra/database/schema";
-import { generateUniqueSlug } from "@/helpers";
+import { OrganizationCreatedEmail } from "@/infra/email-templates";
+import { BaseService } from "@/modules/shared";
+import type { IEmailSender } from "@/modules/shared/email-sender";
+import type { IStorage } from "@/modules/shared/storage";
+import type { CreateOrganization, ICreateOrganization } from ".";
 
 export class CreateOrganizationService
   extends BaseService
@@ -12,7 +15,8 @@ export class CreateOrganizationService
 {
   constructor(
     protected readonly logger: ILoggingManager,
-    private readonly storage: IStorage
+    private readonly storage: IStorage,
+    private readonly emailSender: IEmailSender
   ) {
     super(logger);
   }
@@ -20,12 +24,12 @@ export class CreateOrganizationService
   @setTraceId
   async run({
     organization,
-    userId,
+    user,
   }: CreateOrganization.Params): Promise<CreateOrganization.Response> {
     this.log("info", "Creating organization", {
       name: organization.name,
       phone: organization.phone,
-      userId,
+      userId: user.id,
     });
 
     this.log("info", "Checking for existing organization with same phone", {
@@ -50,6 +54,10 @@ export class CreateOrganizationService
 
     this.log("info", "Phone is available, proceeding");
 
+    const slug = generateUniqueSlug(organization.name);
+
+    this.log("info", "Slug generated", { slug });
+
     let keyStorage: string | null = null;
     let logoUrl: string | null = null;
 
@@ -63,7 +71,7 @@ export class CreateOrganizationService
       });
 
       keyStorage = this.storage.generateKey({
-        filename: file.name,
+        filename: slug,
         folder: "organization",
       }).key;
 
@@ -88,10 +96,6 @@ export class CreateOrganizationService
       });
     }
 
-    const slug = generateUniqueSlug(organization.name);
-
-    this.log("info", "Slug generated", { slug });
-
     try {
       this.log(
         "info",
@@ -114,18 +118,21 @@ export class CreateOrganizationService
         });
 
         await tx.insert(schema.members).values({
-          userId,
+          userId: user.id,
           organizationId: organizationCreated.id,
           role: "owner",
         });
 
         this.log("info", "Owner member inserted", {
           organizationId: organizationCreated.id,
-          userId,
+          userId: user.id,
         });
       });
 
-      this.log("info", "Organization created successfully", { slug, userId });
+      this.log("info", "Organization created successfully", {
+        slug,
+        userId: user.id,
+      });
     } catch (error) {
       this.log("error", "Transaction failed, rolling back storage upload", {
         error: error instanceof Error ? error.message : String(error),
@@ -154,6 +161,16 @@ export class CreateOrganizationService
 
       throw error;
     }
+
+    await this.emailSender.sendEmail({
+      to: user.email,
+      subject: `Seu estabelecimento ${organization.name} foi criado no Marquei.`,
+      react: OrganizationCreatedEmail({
+        dashboardUrl: appEnv.CLIENT_BASE_URL,
+        establishmentName: organization.name,
+        userName: user.name,
+      }),
+    });
 
     return {
       message: "Estabelecimento criado com sucesso!",

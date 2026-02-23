@@ -1,11 +1,11 @@
-import { cloudflareEnv } from "@/infra";
-import { IStorage, Storage } from "./storage.interface";
 import {
   DeleteObjectCommand,
   HeadObjectCommand,
   PutObjectCommand,
   S3Client,
 } from "@aws-sdk/client-s3";
+import { cloudflareEnv } from "@/infra";
+import type { IStorage, Storage } from "./storage.interface";
 
 export class StorageService implements IStorage {
   async upload({
@@ -70,7 +70,7 @@ export class StorageService implements IStorage {
     const sanitized = filename.replace(/[^a-zA-Z0-9._-]/g, "_");
 
     return {
-      key: `${folder}/${Date.now()}-${sanitized}`,
+      key: `${folder}/${sanitized}-${Date.now()}`,
     };
   }
 

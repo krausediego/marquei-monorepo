@@ -1,4 +1,4 @@
-import { IController } from "@/modules/shared";
+import type { IController } from "@/modules/shared";
 import { CreateOrganizationController, makeCreateOrganizationService } from ".";
 
 export const makeCreateOrganizationController = (): IController => {

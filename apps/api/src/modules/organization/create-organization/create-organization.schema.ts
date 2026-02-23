@@ -10,10 +10,10 @@ export const createOrganizationSchema = defineSchema({
     city: t.String({ minLength: 1 }),
     district: t.String({ minLength: 1 }),
     street: t.String({ minLength: 1 }),
-    number: t.Number({ minLength: 1 }),
+    number: t.Numeric({ minLength: 1 }),
     location: t.Object({
-      x: t.Number(),
-      y: t.Number(),
+      x: t.Numeric(),
+      y: t.Numeric(),
     }),
     complement: t.Optional(t.String()),
     postalCode: t.Optional(t.String()),

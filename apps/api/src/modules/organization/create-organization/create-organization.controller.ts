@@ -1,6 +1,6 @@
-import { IController } from "@/modules/shared";
-import { CreateOrganizationSchema, ICreateOrganization } from ".";
-import { getHttpError, Http, ok } from "@/infra";
+import { getHttpError, type Http, ok } from "@/infra";
+import type { IController } from "@/modules/shared";
+import type { CreateOrganizationSchema, ICreateOrganization } from ".";
 
 type CreateOrganizationHandler = () => ICreateOrganization;
 export class CreateOrganizationController implements IController {

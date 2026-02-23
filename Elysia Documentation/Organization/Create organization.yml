@@ -1,0 +1,76 @@
+info:
+  name: Create organization
+  type: http
+  seq: 1
+  tags:
+    - Organization
+
+http:
+  method: POST
+  url: "{{baseUrl}}/api/v1/organization/"
+  body:
+    type: json
+    data: |-
+      {
+        "name": "asdas",
+        "description": "daasd",
+        "phone": "asdas",
+        "state": "asdsa",
+        "city": "asdasd",
+        "district": "asdsad",
+        "street": "asdasd",
+        "number": 22,
+        "location": {
+          "x": 0,
+          "y": 0
+        },
+        "complement": "asdasd",
+        "postalCode": "asdasd"
+      }
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+
+examples:
+  - name: 200 Response
+    description: Response for status 200
+    request:
+      url: "{{baseUrl}}/api/v1/organization/"
+      method: POST
+      body:
+        type: json
+        data: |-
+          {
+            "name": "",
+            "description": "",
+            "phone": "",
+            "state": "",
+            "city": "",
+            "district": "",
+            "street": "",
+            "number": 0,
+            "location": {
+              "x": 0,
+              "y": 0
+            },
+            "complement": "",
+            "postalCode": "",
+            "logo": ""
+          }
+    response:
+      status: 200
+      statusText: OK
+      headers:
+        - name: Content-Type
+          value: application/json
+      body:
+        type: json
+        data: |-
+          {
+            "message": "",
+            "created": false
+          }

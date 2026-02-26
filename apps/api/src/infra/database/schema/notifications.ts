@@ -16,59 +16,35 @@ export const notificationStatusEnum = pgEnum("notification_status", [
   "dismissed", // descartado sem ação
 ]);
 
-export const notifications = pgTable(
-  "notifications",
-  {
-    id: text("id")
-      .primaryKey()
-      .$defaultFn(() => randomUUIDv7()),
+export const notifications = pgTable("notifications", {
+  id: text("id")
+    .primaryKey()
+    .$defaultFn(() => randomUUIDv7()),
 
-    // NULL = broadcast para toda a organização
-    // preenchido = notificação para usuário específico
-    userId: text("user_id").references(() => users.id, { onDelete: "cascade" }),
+  // NULL = broadcast para toda a organização
+  // preenchido = notificação para usuário específico
+  userId: text("user_id").references(() => users.id, { onDelete: "cascade" }),
 
-    // NULL = notificação global/sistema (fora de uma org)
-    organizationId: text("organization_id").references(() => organizations.id, {
-      onDelete: "cascade",
-    }),
+  // NULL = notificação global/sistema (fora de uma org)
+  organizationId: text("organization_id").references(() => organizations.id, {
+    onDelete: "cascade",
+  }),
 
-    type: notificationTypeEnum("type").notNull(),
+  type: notificationTypeEnum("type").notNull(),
 
-    title: text("title").notNull(),
-    body: text("body").notNull(),
+  title: text("title").notNull(),
+  body: text("body").notNull(),
 
-    // referência genérica ao recurso relacionado (inviteId, appointmentId, etc.)
-    referenceId: text("reference_id"),
-    referenceTable: text("reference_table"), // "invitations", "appointments", etc.
+  // referência genérica ao recurso relacionado (inviteId, appointmentId, etc.)
+  referenceId: text("reference_id"),
+  referenceTable: text("reference_table"), // "invitations", "appointments", etc.
 
-    // só faz sentido para tipos acionáveis como "invite"
-    status: notificationStatusEnum("status"),
+  // só faz sentido para tipos acionáveis como "invite"
+  status: notificationStatusEnum("status"),
 
-    // controle de leitura
-    readAt: timestamp("read_at"),
+  // controle de leitura
+  readAt: timestamp("read_at"),
 
-    createdAt: timestamp("created_at").defaultNow().notNull(),
-    expiresAt: timestamp("expires_at"), // útil para lembretes com validade
-  },
-  (table) => ({
-    // busca principal: notificações de um usuário específico não lidas
-    userIdReadAtIdx: index("notifications_user_id_read_at_idx").on(
-      table.userId,
-      table.readAt
-    ),
-    // busca de broadcast: notificações de uma organização
-    orgIdIdx: index("notifications_organization_id_idx").on(
-      table.organizationId
-    ),
-    // busca por tipo dentro de uma org (ex: todos os invites pendentes)
-    orgTypeIdx: index("notifications_organization_id_type_idx").on(
-      table.organizationId,
-      table.type
-    ),
-    // lookup reverso pelo recurso relacionado
-    referenceIdx: index("notifications_reference_idx").on(
-      table.referenceId,
-      table.referenceTable
-    ),
-  })
-);
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  expiresAt: timestamp("expires_at"), // útil para lembretes com validade
+});

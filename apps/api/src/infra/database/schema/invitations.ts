@@ -1,8 +1,15 @@
 import { randomUUIDv7 } from "bun";
 import { relations } from "drizzle-orm";
-import { index, pgTable, text, timestamp } from "drizzle-orm/pg-core";
+import { index, pgEnum, pgTable, text, timestamp } from "drizzle-orm/pg-core";
 import { organizations } from "./organizations";
 import { users } from "./users";
+
+export const invitationStatusTypeEnum = pgEnum("notification_type", [
+  "pending",
+  "accepted",
+  "expired",
+  "rejected",
+]);
 
 export const invitations = pgTable(
   "invitations",
@@ -15,7 +22,7 @@ export const invitations = pgTable(
       .references(() => organizations.id, { onDelete: "cascade" }),
     email: text("email").notNull(),
     role: text("role"),
-    status: text("status").default("pending").notNull(),
+    status: invitationStatusTypeEnum("status").default("pending").notNull(),
     expiresAt: timestamp("expires_at").notNull(),
     createdAt: timestamp("created_at").defaultNow().notNull(),
     inviterId: text("inviter_id")

@@ -29,4 +29,4 @@ export default new Elysia({ prefix: "/organization" })
     body: updateOrganizationSchema.body,
     response: updateOrganizationSchema.response,
     detail: updateOrganizationSchema.detail,
-  });
+  })

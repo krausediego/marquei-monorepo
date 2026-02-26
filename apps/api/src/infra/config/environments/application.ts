@@ -3,7 +3,7 @@ import { t } from "elysia";
 
 const envSchema = t.Object({
   PORT: t.String(),
-  DATABASE_URL: t.String({ format: "uri" }),
+  DATABASE_URL: t.String(),
   CLIENT_BASE_URL: t.String(),
   NODE_ENV: t.String(),
 });

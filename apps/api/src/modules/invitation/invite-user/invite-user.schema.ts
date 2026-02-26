@@ -12,7 +12,7 @@ export const inviteUserSchema = defineSchema({
     }),
   },
   detail: {
-    tags: ["Organization"],
+    tags: ["Invitation"],
     summary: "Invite user",
   },
 });

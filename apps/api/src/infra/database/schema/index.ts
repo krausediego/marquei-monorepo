@@ -1,6 +1,7 @@
 export * from "./accounts";
 export * from "./invitations";
 export * from "./members";
+export * from "./notifications";
 export * from "./organizations";
 export * from "./sessions";
 export * from "./subscriptions";

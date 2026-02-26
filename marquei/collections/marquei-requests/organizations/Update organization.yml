@@ -1,0 +1,55 @@
+info:
+  name: Update organization
+  type: http
+  seq: 3
+
+http:
+  method: PUT
+  url: "{{baseURL}}{{prefix}}/organization/019c9009-9c42-7000-afbc-6ca328a1e97a"
+  body:
+    type: multipart-form
+    data:
+      - name: name
+        type: text
+        value: Barbearia coronel procópio
+      - name: description
+        type: text
+        value: Uma barbearia top
+      - name: city
+        type: text
+        value: Jaraguá do sul
+      - name: state
+        type: text
+        value: Santa Catarina
+      - name: phone
+        type: text
+        value: (47) 992656515
+      - name: district
+        type: text
+        value: Rio molha
+      - name: street
+        type: text
+        value: Rua adolfo antonio emmendoerfer
+      - name: number
+        type: text
+        value: "1300"
+      - name: location
+        type: text
+        value: '{"x": 10, "y": 20}'
+      - name: complement
+        type: text
+        value: Aos fundos da capela numero 8
+      - name: postalCode
+        type: text
+        value: "89259695"
+      - name: logo
+        type: file
+        value:
+          - /Users/diegokrause/Downloads/59db69d33752880e93e16efc.png
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

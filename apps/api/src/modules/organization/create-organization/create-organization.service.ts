@@ -1,5 +1,3 @@
-import { pretty, render } from "@react-email/components";
-import React from "react";
 import { generateUniqueSlug, setTraceId } from "@/helpers";
 import { appEnv, ConflictError, db, type ILoggingManager } from "@/infra";
 import * as schema from "@/infra/database/schema";
@@ -96,13 +94,14 @@ export class CreateOrganizationService
       });
     }
 
+    let organizationId: string | null = null;
     try {
       this.log(
         "info",
         "Starting transaction: insert organization and owner member"
       );
 
-      await db.transaction(async (tx) => {
+      const { id } = await db.transaction(async (tx) => {
         const [organizationCreated] = await tx
           .insert(schema.organizations)
           .values({
@@ -127,7 +126,11 @@ export class CreateOrganizationService
           organizationId: organizationCreated.id,
           userId: user.id,
         });
+
+        return organizationCreated;
       });
+
+      organizationId = id;
 
       this.log("info", "Organization created successfully", {
         slug,
@@ -162,18 +165,23 @@ export class CreateOrganizationService
       throw error;
     }
 
-    await this.emailSender.sendEmail({
-      to: user.email,
-      subject: `Seu estabelecimento ${organization.name} foi criado no Marquei.`,
-      react: OrganizationCreatedEmail({
-        dashboardUrl: appEnv.CLIENT_BASE_URL,
-        establishmentName: organization.name,
-        userName: user.name,
-      }),
-    });
+    if (appEnv.NODE_ENV !== "development") {
+      const { id } = await this.emailSender.sendEmail({
+        to: user.email,
+        subject: `Seu estabelecimento ${organization.name} foi criado no Marquei.`,
+        react: OrganizationCreatedEmail({
+          dashboardUrl: appEnv.CLIENT_BASE_URL,
+          establishmentName: organization.name,
+          userName: user.name,
+        }),
+      });
+
+      this.log("info", "Created enterprise email send", { id });
+    }
 
     return {
       message: "Estabelecimento criado com sucesso!",
+      organizationId,
       created: true,
     };
   }

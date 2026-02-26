@@ -14,8 +14,9 @@ export const adaptRoute = (controller: IController) =>
       path: ctx.path,
       locals: {
         traceId: ctx.traceId,
-        organizationId: ctx.organizationId,
+        organizationId: ctx.session.activeOrganizationId,
         user: ctx.user,
+        headers: ctx.headers,
       },
     });
 

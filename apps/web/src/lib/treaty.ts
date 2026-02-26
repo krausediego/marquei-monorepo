@@ -1,7 +1,7 @@
+import type { AppType } from "@backend/appTypes";
 import { treaty } from "@elysiajs/eden";
-import type { App } from "../../../api/src/http/app";
 
-export const client = treaty<App>("localhost:3333", {
+export const client = treaty<AppType>("localhost:3333", {
   fetch: {
     credentials: "include",
   },

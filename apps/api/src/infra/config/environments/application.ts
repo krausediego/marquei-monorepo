@@ -5,6 +5,7 @@ const envSchema = t.Object({
   PORT: t.String(),
   DATABASE_URL: t.String({ format: "uri" }),
   CLIENT_BASE_URL: t.String(),
+  NODE_ENV: t.String(),
 });
 
 const compiler = TypeCompiler.Compile(envSchema);
@@ -14,6 +15,7 @@ export const appEnv = (() => {
     PORT: Bun.env.PORT,
     DATABASE_URL: Bun.env.DATABASE_URL,
     CLIENT_BASE_URL: Bun.env.CLIENT_BASE_URL,
+    NODE_ENV: Bun.env.NODE_ENV,
   };
 
   const encodedEnv = compiler.Encode(rawEnv);

@@ -1,0 +1,12 @@
+opencollection: 1.0.0
+info:
+  name: "marquei"
+  type: workspace
+
+collections:
+  - name: "marquei-requests"
+    path: "collections/marquei-requests"
+
+specs:
+
+docs: ''

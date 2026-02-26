@@ -12,5 +12,7 @@ export namespace CreateOrganization {
     traceId: string;
   };
 
-  export type Response = CreateOrganizationSchema.GetResponse;
+  export type Response = CreateOrganizationSchema.GetResponse & {
+    organizationId: string;
+  };
 }

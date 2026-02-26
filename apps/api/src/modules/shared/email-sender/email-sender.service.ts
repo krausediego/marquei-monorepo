@@ -11,7 +11,7 @@ export class EmailSenderService implements IEmailSender {
     react,
   }: EmailSender.SendEmailProps): Promise<EmailSender.SendEmailResponse> {
     const { data, error } = await resend.emails.send({
-      from: "diegoemanuelk@gmail.com",
+      from: "bounced@resend.dev",
       to,
       subject,
       react,

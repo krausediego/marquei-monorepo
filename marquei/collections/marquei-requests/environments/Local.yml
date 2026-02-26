@@ -1,0 +1,6 @@
+name: Local
+variables:
+  - name: baseURL
+    value: http://localhost:3333
+  - name: prefix
+    value: /api/v1

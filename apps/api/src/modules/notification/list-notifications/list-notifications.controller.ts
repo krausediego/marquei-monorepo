@@ -1,20 +1,20 @@
 import { getHttpError, type Http, ok } from "@/infra";
 import type { IController } from "@/modules/shared";
-import type { IListInvitations, ListInvitationsSchema } from ".";
+import type { IListNotifications, ListNotificationsSchema } from ".";
 
-type ListInvitationsHandler = () => IListInvitations;
+type ListNotificationsHandler = () => IListNotifications;
 
-export class ListInvitationsController implements IController {
+export class ListNotificationsController implements IController {
   constructor(
-    private readonly listInvitationsService: ListInvitationsHandler
+    private readonly listNotificationsService: ListNotificationsHandler
   ) {}
 
   async handle({
     data,
     locals,
-  }: Http.IRequest<ListInvitationsSchema.getParams>): Promise<Http.IResponse> {
+  }: Http.IRequest<ListNotificationsSchema.getParams>): Promise<Http.IResponse> {
     try {
-      const content = await this.listInvitationsService().run({
+      const content = await this.listNotificationsService().run({
         ...data,
         userId: locals.user.id,
         organizationId: locals.organizationId,

@@ -45,6 +45,9 @@ export class ListInvitationsService
       },
     });
 
+    console.log("userId", userId);
+    console.log("organizationId", organizationId);
+
     if (!user) {
       this.log("warn", "User is not a member of the organization", {
         userId,
@@ -90,7 +93,7 @@ export class ListInvitationsService
           return asc(fields.createdAt);
         },
       }),
-      db.select({ total: count() }).from(schema.users).where(where),
+      db.select({ total: count() }).from(schema.invitations).where(where),
     ]);
 
     this.log("info", "Invitations fetched successfully", {

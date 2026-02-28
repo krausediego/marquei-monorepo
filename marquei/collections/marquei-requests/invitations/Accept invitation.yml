@@ -6,6 +6,12 @@ info:
 http:
   method: POST
   url: "{{baseURL}}{{prefix}}/invitation/accept"
+  body:
+    type: json
+    data: |-
+      {
+        "invitationId": "019ca4e5-9f0c-7000-92cc-23b95f4ff161"
+      }
   auth: inherit
 
 settings:

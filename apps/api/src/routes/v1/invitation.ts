@@ -1,9 +1,13 @@
 import Elysia from "elysia";
 import {
   acceptInvitationSchema,
+  deleteInvitationSchema,
+  invitationDetailsSchema,
   inviteUserSchema,
   listInvitationsSchema,
   makeAcceptInvitationController,
+  makeDeleteInvitationController,
+  makeInvitationDetailsController,
   makeInviteUserController,
   makeListInvitationsController,
   makeRejectInvitationController,
@@ -25,6 +29,18 @@ export default new Elysia({ prefix: "/invitation" })
     query: listInvitationsSchema.query,
     response: listInvitationsSchema.response,
     detail: listInvitationsSchema.detail,
+  })
+  .get("/:invitationId", adaptRoute(makeInvitationDetailsController()), {
+    auth: true,
+    params: invitationDetailsSchema.params,
+    response: invitationDetailsSchema.response,
+    detail: invitationDetailsSchema.detail,
+  })
+  .delete("/:invitationId", adaptRoute(makeDeleteInvitationController()), {
+    organization: true,
+    params: deleteInvitationSchema.params,
+    response: deleteInvitationSchema.response,
+    detail: deleteInvitationSchema.detail,
   })
   .post("/accept", adaptRoute(makeAcceptInvitationController()), {
     auth: true,

@@ -1,0 +1,15 @@
+info:
+  name: Delete Invitation
+  type: http
+  seq: 5
+
+http:
+  method: DELETE
+  url: "{{baseURL}}{{prefix}}/invitation/019ca4e5-9f0c-7000-92cc-23b95f4ff161"
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

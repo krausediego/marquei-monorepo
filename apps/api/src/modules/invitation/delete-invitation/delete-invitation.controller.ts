@@ -1,20 +1,20 @@
 import { getHttpError, type Http, ok } from "@/infra";
 import type { IController } from "@/modules/shared";
-import type { IListInvitations, ListInvitationsSchema } from ".";
+import type { DeleteInvitationSchema, IDeleteInvitation } from ".";
 
-type ListInvitationsHandler = () => IListInvitations;
+type DeleteInvitationHandler = () => IDeleteInvitation;
 
-export class ListInvitationsController implements IController {
+export class DeleteInvitationController implements IController {
   constructor(
-    private readonly listInvitationsService: ListInvitationsHandler
+    private readonly deleteInvitationService: DeleteInvitationHandler
   ) {}
 
   async handle({
     data,
     locals,
-  }: Http.IRequest<ListInvitationsSchema.getParams>): Promise<Http.IResponse> {
+  }: Http.IRequest<DeleteInvitationSchema.getParams>): Promise<Http.IResponse> {
     try {
-      const content = await this.listInvitationsService().run({
+      const content = await this.deleteInvitationService().run({
         ...data,
         userId: locals.user.id,
         organizationId: locals.organizationId,

@@ -141,7 +141,6 @@ export class InviteUserService extends BaseService implements IInviteUser {
       });
 
       await tx.insert(schema.notifications).values({
-        organizationId: params.organizationId,
         userId: userToInvite.id,
         type: "invite",
         title: "Você recebeu um convite",
@@ -157,6 +156,8 @@ export class InviteUserService extends BaseService implements IInviteUser {
         targetUserId: userToInvite.id,
       });
     });
+
+    // TODO: Implements SSE calling refetch notifications.
 
     this.log("info", "Invitation process completed successfully", {
       organizationId: params.organizationId,

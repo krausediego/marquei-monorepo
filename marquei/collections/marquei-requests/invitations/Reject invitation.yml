@@ -6,6 +6,12 @@ info:
 http:
   method: POST
   url: "{{baseURL}}{{prefix}}/invitation/reject"
+  body:
+    type: json
+    data: |-
+      {
+        "invitationId": "019c9b25-99e9-7000-b488-5d141efd2fc8"
+      }
   auth: inherit
 
 settings:

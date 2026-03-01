@@ -6,6 +6,9 @@
     },
     {
       "path": "./tsconfig.node.json"
+    },
+    {
+      "path": "../api"
     }
   ],
   "compilerOptions": {
@@ -13,6 +16,9 @@
     "paths": {
       "@/*": [
         "./src/*"
+      ],
+      "@backend": [
+        "../api/src/*"
       ]
     }
   }

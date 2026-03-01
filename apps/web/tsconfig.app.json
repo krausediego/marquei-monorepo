@@ -24,6 +24,9 @@
     "paths": {
       "@/*": [
         "./src/*"
+      ],
+      "@backend/*": [
+        "../api/src/*"
       ]
     },
     /* Linting */
@@ -36,5 +39,10 @@
   },
   "include": [
     "src"
+  ],
+  "references": [
+    {
+      "path": "../api"
+    }
   ]
 }

@@ -22,7 +22,9 @@
     "packages/*"
   ],
   "dependencies": {
+    "@sinclair/typebox": "^0.34.48",
     "date-fns": "^4.1.0",
-    "drizzle-typebox": "^0.3.3"
+    "drizzle-typebox": "^0.3.3",
+    "typebox": "^1.1.5"
   }
 }

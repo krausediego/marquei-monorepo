@@ -24,9 +24,6 @@
     "paths": {
       "@/*": [
         "./src/*"
-      ],
-      "@backend/*": [
-        "../api/src/*"
       ]
     },
     /* Linting */
@@ -35,14 +32,9 @@
     "noUnusedParameters": true,
     "erasableSyntaxOnly": true,
     "noFallthroughCasesInSwitch": true,
-    "noUncheckedSideEffectImports": true,
+    "noUncheckedSideEffectImports": true
   },
   "include": [
     "src"
-  ],
-  "references": [
-    {
-      "path": "../api"
-    }
   ]
 }

@@ -1,11 +1,7 @@
 import { QueryClientProvider } from "@tanstack/react-query";
-import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { createRouter, RouterProvider } from "@tanstack/react-router";
-
-import { ThemeProvider } from "./components/theme-provider";
-import { queryClient } from "./lib/query-client";
+import { queryClient } from "@/lib";
 import { routeTree } from "./routeTree.gen";
-import { Toaster } from "./components/ui/sonner";
 
 const router = createRouter({ routeTree });
 
@@ -18,11 +14,7 @@ declare module "@tanstack/react-router" {
 export function App() {
   return (
     <QueryClientProvider client={queryClient}>
-      <ThemeProvider defaultTheme="light" storageKey="vite-ui-theme">
-        <RouterProvider router={router} />
-      </ThemeProvider>
-      <ReactQueryDevtools initialIsOpen={false} />
-      <Toaster richColors position="top-right" />
+      <RouterProvider router={router} />
     </QueryClientProvider>
   );
 }

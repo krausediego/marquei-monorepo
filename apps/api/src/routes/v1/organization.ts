@@ -1,9 +1,9 @@
 import Elysia from "elysia";
 import {
   createOrganizationSchema,
-  findAllOrganizationsSchema,
+  listOrganizationsSchema,
   makeCreateOrganizationController,
-  makeFindAllOrganizationsController,
+  makeListOrganizationsController,
   makeUpdateOrganizationController,
   updateOrganizationSchema,
 } from "@/modules/organization";
@@ -18,10 +18,10 @@ export default new Elysia({ prefix: "/organization" })
     response: createOrganizationSchema.response,
     detail: createOrganizationSchema.detail,
   })
-  .get("/", adaptRoute(makeFindAllOrganizationsController()), {
+  .get("/", adaptRoute(makeListOrganizationsController()), {
     auth: true,
-    response: findAllOrganizationsSchema.response,
-    detail: findAllOrganizationsSchema.detail,
+    response: listOrganizationsSchema.response,
+    detail: listOrganizationsSchema.detail,
   })
   .put("/:id", adaptRoute(makeUpdateOrganizationController()), {
     auth: true,
@@ -29,4 +29,4 @@ export default new Elysia({ prefix: "/organization" })
     body: updateOrganizationSchema.body,
     response: updateOrganizationSchema.response,
     detail: updateOrganizationSchema.detail,
-  })
+  });

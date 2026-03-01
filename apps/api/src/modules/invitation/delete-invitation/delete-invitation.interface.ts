@@ -5,11 +5,11 @@ export interface IDeleteInvitation {
 }
 
 export namespace DeleteInvitation {
-  export type Params = DeleteInvitationSchema.getParams & {
+  export type Params = DeleteInvitationSchema.GetParams & {
     organizationId: string;
     userId: string;
     traceId: string;
   };
 
-  export type Response = DeleteInvitationSchema.getResponse;
+  export type Response = DeleteInvitationSchema.GetResponse;
 }

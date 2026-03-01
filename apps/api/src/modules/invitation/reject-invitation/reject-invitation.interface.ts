@@ -5,10 +5,10 @@ export interface IRejectInvitation {
 }
 
 export namespace RejectInvitation {
-  export type Params = RejectInvitationSchema.getParams & {
+  export type Params = RejectInvitationSchema.GetParams & {
     userId: string;
     traceId: string;
   };
 
-  export type Response = RejectInvitationSchema.getResponse;
+  export type Response = RejectInvitationSchema.GetResponse;
 }

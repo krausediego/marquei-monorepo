@@ -12,7 +12,7 @@ export class RejectInvitationController implements IController {
   async handle({
     data,
     locals,
-  }: Http.IRequest<RejectInvitationSchema.getParams>): Promise<Http.IResponse> {
+  }: Http.IRequest<RejectInvitationSchema.GetParams>): Promise<Http.IResponse> {
     try {
       const content = await this.rejectInvitationService().run({
         invitationId: data.invitationId,

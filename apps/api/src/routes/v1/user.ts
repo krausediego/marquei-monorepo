@@ -1,13 +1,13 @@
 import Elysia from "elysia";
-import { findAllUsersSchema, makeFindAllUsersController } from "@/modules/user";
+import { listUsersSchema, makeListUsersController } from "@/modules/user";
 import { adaptRoute } from "../handlers";
 import { betterAuthPlugin } from "../plugins";
 
 export default new Elysia({ prefix: "/user" })
   .use(betterAuthPlugin)
-  .get("/", adaptRoute(makeFindAllUsersController()), {
+  .get("/", adaptRoute(makeListUsersController()), {
     auth: true,
-    query: findAllUsersSchema.query,
-    response: findAllUsersSchema.response,
-    detail: findAllUsersSchema.detail,
+    query: listUsersSchema.query,
+    response: listUsersSchema.response,
+    detail: listUsersSchema.detail,
   });

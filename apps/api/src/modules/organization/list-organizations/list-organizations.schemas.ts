@@ -5,7 +5,7 @@ import * as schema from "@/infra/database/schema";
 
 const Organization = createSelectSchema(schema.organizations);
 
-export const findAllOrganizationsSchema = defineSchema({
+export const listOrganizationsSchema = defineSchema({
   response: {
     200: t.Object({
       data: t.Array(Organization),
@@ -17,8 +17,8 @@ export const findAllOrganizationsSchema = defineSchema({
   },
 });
 
-export namespace FindAllOrganizationsSchema {
+export namespace ListOrganizationsSchema {
   export type GetResponse = Static<
-    (typeof findAllOrganizationsSchema.response)[200]
+    (typeof listOrganizationsSchema.response)[200]
   >;
 }

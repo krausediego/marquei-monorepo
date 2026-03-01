@@ -3,11 +3,11 @@ import { setTraceId } from "@/helpers";
 import { db, type ILoggingManager } from "@/infra";
 import * as schema from "@/infra/database/schema";
 import { BaseService } from "@/modules/shared";
-import type { FindAllOrganizations, IFindAllOrganizations } from ".";
+import type { IListOrganizations, ListOrganizations } from ".";
 
-export class FindAllOrganizationsService
+export class ListOrganizationsService
   extends BaseService
-  implements IFindAllOrganizations
+  implements IListOrganizations
 {
   constructor(protected readonly logger: ILoggingManager) {
     super(logger);
@@ -16,7 +16,7 @@ export class FindAllOrganizationsService
   @setTraceId
   async run({
     userId,
-  }: FindAllOrganizations.Params): Promise<FindAllOrganizations.Response> {
+  }: ListOrganizations.Params): Promise<ListOrganizations.Response> {
     this.log("info", "Fetching organizations for user", { userId });
 
     const organizations = await db

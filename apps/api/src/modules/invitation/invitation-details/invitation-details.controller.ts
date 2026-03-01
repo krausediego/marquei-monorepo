@@ -12,10 +12,11 @@ export class InvitationDetailsController implements IController {
   async handle({
     data,
     locals,
-  }: Http.IRequest<InvitationDetailsSchema.getParams>): Promise<Http.IResponse> {
+  }: Http.IRequest<InvitationDetailsSchema.GetParams>): Promise<Http.IResponse> {
     try {
       const content = await this.invitationDetailsService().run({
         ...data,
+        userId: locals.user.id,
         traceId: locals?.traceId,
       });
 

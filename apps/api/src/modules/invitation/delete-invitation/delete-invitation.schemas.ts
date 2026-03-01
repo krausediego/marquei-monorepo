@@ -18,8 +18,8 @@ export const deleteInvitationSchema = defineSchema({
 });
 
 export namespace DeleteInvitationSchema {
-  export type getParams = Static<typeof deleteInvitationSchema.params>;
-  export type getResponse = Static<
+  export type GetParams = Static<typeof deleteInvitationSchema.params>;
+  export type GetResponse = Static<
     (typeof deleteInvitationSchema.response)[200]
   >;
 }

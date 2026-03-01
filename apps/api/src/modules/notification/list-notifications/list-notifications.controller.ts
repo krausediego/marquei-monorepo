@@ -12,7 +12,7 @@ export class ListNotificationsController implements IController {
   async handle({
     data,
     locals,
-  }: Http.IRequest<ListNotificationsSchema.getParams>): Promise<Http.IResponse> {
+  }: Http.IRequest<ListNotificationsSchema.GetParams>): Promise<Http.IResponse> {
     try {
       const content = await this.listNotificationsService().run({
         ...data,

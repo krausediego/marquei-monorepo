@@ -5,10 +5,10 @@ export interface IAcceptInvitation {
 }
 
 export namespace AcceptInvitation {
-  export type Params = AcceptInvitationSchema.getParams & {
+  export type Params = AcceptInvitationSchema.GetParams & {
     userId: string;
     traceId: string;
   };
 
-  export type Response = AcceptInvitationSchema.getResponse;
+  export type Response = AcceptInvitationSchema.GetResponse;
 }

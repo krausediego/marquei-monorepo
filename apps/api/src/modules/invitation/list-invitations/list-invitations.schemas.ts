@@ -18,8 +18,8 @@ export const listInvitationsSchema = defineSchema({
 });
 
 export namespace ListInvitationsSchema {
-  export type getParams = Static<typeof listInvitationsSchema.query>;
-  export type getResponse = Static<
+  export type GetParams = Static<typeof listInvitationsSchema.query>;
+  export type GetResponse = Static<
     (typeof listInvitationsSchema.response)[200]
   >;
 }

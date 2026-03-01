@@ -7,9 +7,9 @@ import {
 import { db, type ILoggingManager } from "@/infra";
 import * as schema from "@/infra/database/schema";
 import { BaseService } from "@/modules/shared";
-import type { FindAllUsers, IFindAllUsers } from ".";
+import type { IListUsers, ListUsers } from ".";
 
-export class FindAllUsersService extends BaseService implements IFindAllUsers {
+export class ListUsersService extends BaseService implements IListUsers {
   constructor(protected readonly logger: ILoggingManager) {
     super(logger);
   }
@@ -20,7 +20,7 @@ export class FindAllUsersService extends BaseService implements IFindAllUsers {
     page,
     limit,
     search,
-  }: FindAllUsers.Params): Promise<FindAllUsers.Response> {
+  }: ListUsers.Params): Promise<ListUsers.Response> {
     const { offset, ...pagination } = getPaginationOffset(page, limit);
 
     const where = and(

@@ -5,9 +5,10 @@ export interface IInvitationDetails {
 }
 
 export namespace InvitationDetails {
-  export type Params = InvitationDetailsSchema.getParams & {
+  export type Params = InvitationDetailsSchema.GetParams & {
+    userId: string;
     traceId: string;
   };
 
-  export type Response = InvitationDetailsSchema.getResponse;
+  export type Response = InvitationDetailsSchema.GetResponse;
 }

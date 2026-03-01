@@ -18,8 +18,8 @@ export const acceptInvitationSchema = defineSchema({
 });
 
 export namespace AcceptInvitationSchema {
-  export type getParams = Static<typeof acceptInvitationSchema.body>;
-  export type getResponse = Static<
+  export type GetParams = Static<typeof acceptInvitationSchema.body>;
+  export type GetResponse = Static<
     (typeof acceptInvitationSchema.response)[200]
   >;
 }

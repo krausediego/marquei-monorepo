@@ -12,7 +12,7 @@ export class DeleteInvitationController implements IController {
   async handle({
     data,
     locals,
-  }: Http.IRequest<DeleteInvitationSchema.getParams>): Promise<Http.IResponse> {
+  }: Http.IRequest<DeleteInvitationSchema.GetParams>): Promise<Http.IResponse> {
     try {
       const content = await this.deleteInvitationService().run({
         ...data,

@@ -5,11 +5,11 @@ export interface IListInvitations {
 }
 
 export namespace ListInvitations {
-  export type Params = ListInvitationsSchema.getParams & {
+  export type Params = ListInvitationsSchema.GetParams & {
     organizationId: string;
     userId: string;
     traceId: string;
   };
 
-  export type Response = ListInvitationsSchema.getResponse;
+  export type Response = ListInvitationsSchema.GetResponse;
 }

@@ -20,6 +20,27 @@ export class InvitationDetailsService
       invitationId: params.invitationId,
     });
 
+    this.log("info", "Looking up user", { userId: params.userId });
+
+    const user = await db.query.users.findFirst({
+      where(fields, { eq }) {
+        return eq(fields.id, params.userId);
+      },
+      columns: {
+        email: true,
+      },
+    });
+
+    if (!user) {
+      this.log("warn", "User not found", { userId: params.userId });
+      throw new BadRequestError("Usuário não encontrado");
+    }
+
+    this.log("info", "User found, looking up invitation", {
+      userId: params.userId,
+      invitationId: params.invitationId,
+    });
+
     const invitation = await db.query.invitations.findFirst({
       where(fields, { eq }) {
         return eq(fields.id, params.invitationId);
@@ -33,6 +54,7 @@ export class InvitationDetailsService
         },
         users: {
           columns: {
+            id: true,
             name: true,
             email: true,
             image: true,
@@ -46,6 +68,15 @@ export class InvitationDetailsService
         invitationId: params.invitationId,
       });
       throw new BadRequestError("O convite está inválido ou não existe.");
+    }
+
+    if (invitation.email !== user.email) {
+      this.log("warn", "Invitation does not belong to the requesting user", {
+        invitationId: params.invitationId,
+        invitationUserId: invitation.users.id,
+        requestingUserId: params.userId,
+      });
+      throw new BadRequestError("Este convite não pertence ao seu usuário.");
     }
 
     if (invitation.status !== "pending") {

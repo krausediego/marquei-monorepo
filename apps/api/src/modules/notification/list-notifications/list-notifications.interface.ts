@@ -5,11 +5,11 @@ export interface IListNotifications {
 }
 
 export namespace ListNotifications {
-  export type Params = ListNotificationsSchema.getParams & {
+  export type Params = ListNotificationsSchema.GetParams & {
     userId: string;
     organizationId: string;
     traceId: string;
   };
 
-  export type Response = ListNotificationsSchema.getResponse;
+  export type Response = ListNotificationsSchema.GetResponse;
 }

@@ -1,5 +1,5 @@
 info:
-  name: Find all users
+  name: List users
   type: http
   seq: 1
 

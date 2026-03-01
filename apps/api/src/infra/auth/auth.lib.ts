@@ -33,27 +33,6 @@ export const auth = betterAuth({
           },
         },
       },
-      organizationHooks: {
-        beforeCreateOrganization: async (data) => {
-          const existing = await db.query.organizations.findFirst({
-            where(fields, { eq }) {
-              return eq(fields.phone, data.organization.phone);
-            },
-          });
-
-          if (existing) {
-            throw new APIError("BAD_REQUEST", {
-              message: "Telefone já está em uso, utilize outro",
-            });
-          }
-
-          return {
-            data: {
-              ...data,
-            },
-          };
-        },
-      },
     }),
     stripe({
       stripeClient,

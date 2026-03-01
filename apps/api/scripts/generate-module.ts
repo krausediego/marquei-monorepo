@@ -101,7 +101,7 @@ type ${pascal}Handler = () => I${pascal};
 export class ${pascal}Controller implements IController {
   constructor(private readonly ${camel}Service: ${pascal}Handler) {}
 
-  async handle({ data, locals }: Http.IRequest<${pascal}Schema.getParams>): Promise<Http.IResponse> {
+  async handle({ data, locals }: Http.IRequest<${pascal}Schema.GetParams>): Promise<Http.IResponse> {
     try {
       const content = await this.${camel}Service().run({
         traceId: locals?.traceId,
@@ -124,11 +124,11 @@ export interface I${pascal} {
 }
 
 export namespace ${pascal} {
-  export type Params = ${pascal}Schema.getParams & {
+  export type Params = ${pascal}Schema.GetParams & {
     traceId: string;
   };
 
-  export type Response = ${pascal}Schema.getResponse;
+  export type Response = ${pascal}Schema.GetResponse;
 }
 `,
 
@@ -149,8 +149,8 @@ export const ${camel}Schema = defineSchema({
 });
 
 export namespace ${pascal}Schema {
-  export type getParams   = Static<typeof ${camel}Schema.body>;
-  export type getResponse = Static<(typeof ${camel}Schema.response)[200]>;
+  export type GetParams   = Static<typeof ${camel}Schema.body>;
+  export type GetResponse = Static<(typeof ${camel}Schema.response)[200]>;
 }
 `,
 
@@ -160,6 +160,7 @@ import { setTraceId } from "@/helpers";
 import type { ILoggingManager } from "@/infra";
 import { BaseService } from "@/modules/shared";
 import type { ${pascal}, I${pascal} } from ".";
+import * as schema from "@/infra/database/schema";
 
 export class ${pascal}Service extends BaseService implements I${pascal} {
   constructor(protected readonly logger: ILoggingManager) {
@@ -167,7 +168,7 @@ export class ${pascal}Service extends BaseService implements I${pascal} {
   }
 
   @setTraceId
-  async run(_params: ${pascal}.Params): Promise<${pascal}.Response> {
+  async run(params: ${pascal}.Params): Promise<${pascal}.Response> {
     this.log("info", "Starting process ${kebab}");
 
     return {};

@@ -8,7 +8,7 @@ const User = createSelectSchema(schema.users);
 
 const UserWithRole = t.Intersect([User, t.Object({ role: t.String() })]);
 
-export const findAllUsersSchema = defineSchema({
+export const listUsersSchema = defineSchema({
   response: {
     200: paginatedResponse(UserWithRole),
   },
@@ -19,8 +19,7 @@ export const findAllUsersSchema = defineSchema({
   },
 });
 
-export namespace FindAllUsersSchema {
-  export type GetQuery = Static<typeof paginationQuery>;
-
-  export type GetResponse = Static<(typeof findAllUsersSchema.response)[200]>;
+export namespace ListUsersSchema {
+  export type GetParams = Static<typeof paginationQuery>;
+  export type GetResponse = Static<(typeof listUsersSchema.response)[200]>;
 }

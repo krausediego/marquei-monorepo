@@ -32,8 +32,8 @@ export const invitationDetailsSchema = defineSchema({
 });
 
 export namespace InvitationDetailsSchema {
-  export type getParams = Static<typeof invitationDetailsSchema.params>;
-  export type getResponse = Static<
+  export type GetParams = Static<typeof invitationDetailsSchema.params>;
+  export type GetResponse = Static<
     (typeof invitationDetailsSchema.response)[200]
   >;
 }

@@ -18,8 +18,8 @@ export const listNotificationsSchema = defineSchema({
 });
 
 export namespace ListNotificationsSchema {
-  export type getParams = Static<typeof listNotificationsSchema.query>;
-  export type getResponse = Static<
+  export type GetParams = Static<typeof listNotificationsSchema.query>;
+  export type GetResponse = Static<
     (typeof listNotificationsSchema.response)[200]
   >;
 }

@@ -1,7 +1,6 @@
 import { ChevronLeft } from "lucide-react";
-
-import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 
 interface SidebarToggleProps {
   isOpen: boolean | undefined;
@@ -10,7 +9,7 @@ interface SidebarToggleProps {
 
 export function SidebarToggle({ isOpen, setIsOpen }: SidebarToggleProps) {
   return (
-    <div className="invisible lg:visible absolute top-[12px] -right-[16px] z-20">
+    <div className="invisible lg:visible absolute top-3 -right-4 z-20">
       <Button
         onClick={() => setIsOpen?.()}
         className="rounded-md w-8 h-8"

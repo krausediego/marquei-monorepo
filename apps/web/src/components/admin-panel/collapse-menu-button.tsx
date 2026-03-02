@@ -1,32 +1,28 @@
-"use client";
-
-import Link from "next/link";
+import { Link, useLocation } from "@tanstack/react-router";
+import { ChevronDown, Dot, type LucideIcon } from "lucide-react";
+import { DropdownMenu as DropdownMenuPrimitive } from "radix-ui";
 import { useState } from "react";
-import { ChevronDown, Dot, LucideIcon } from "lucide-react";
-
-import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
-import { DropdownMenuArrow } from "@radix-ui/react-dropdown-menu";
 import {
   Collapsible,
   CollapsibleContent,
-  CollapsibleTrigger
+  CollapsibleTrigger,
 } from "@/components/ui/collapsible";
 import {
-  Tooltip,
-  TooltipTrigger,
-  TooltipContent,
-  TooltipProvider
-} from "@/components/ui/tooltip";
-import {
   DropdownMenu,
+  DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuLabel,
+  DropdownMenuSeparator,
   DropdownMenuTrigger,
-  DropdownMenuContent,
-  DropdownMenuSeparator
 } from "@/components/ui/dropdown-menu";
-import { usePathname } from "next/navigation";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
+import { cn } from "@/lib/utils";
 
 type Submenu = {
   href: string;
@@ -45,11 +41,10 @@ interface CollapseMenuButtonProps {
 export function CollapseMenuButton({
   icon: Icon,
   label,
-  active,
   submenus,
-  isOpen
+  isOpen,
 }: CollapseMenuButtonProps) {
-  const pathname = usePathname();
+  const { pathname } = useLocation();
   const isSubmenuActive = submenus.some((submenu) =>
     submenu.active === undefined ? submenu.href === pathname : submenu.active
   );
@@ -76,7 +71,7 @@ export function CollapseMenuButton({
               </span>
               <p
                 className={cn(
-                  "max-w-[150px] truncate",
+                  "max-w-37.5 truncate",
                   isOpen
                     ? "translate-x-0 opacity-100"
                     : "-translate-x-96 opacity-0"
@@ -113,13 +108,13 @@ export function CollapseMenuButton({
             className="w-full justify-start h-10 mb-1"
             asChild
           >
-            <Link href={href}>
+            <Link to={href}>
               <span className="mr-4 ml-2">
                 <Dot size={18} />
               </span>
               <p
                 className={cn(
-                  "max-w-[170px] truncate",
+                  "max-w-42.5 truncate",
                   isOpen
                     ? "translate-x-0 opacity-100"
                     : "-translate-x-96 opacity-0"
@@ -149,7 +144,7 @@ export function CollapseMenuButton({
                     </span>
                     <p
                       className={cn(
-                        "max-w-[200px] truncate",
+                        "max-w-50 truncate",
                         isOpen === false ? "opacity-0" : "opacity-100"
                       )}
                     >
@@ -166,7 +161,7 @@ export function CollapseMenuButton({
         </Tooltip>
       </TooltipProvider>
       <DropdownMenuContent side="right" sideOffset={25} align="start">
-        <DropdownMenuLabel className="max-w-[190px] truncate">
+        <DropdownMenuLabel className="max-w-47.5 truncate">
           {label}
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
@@ -177,13 +172,13 @@ export function CollapseMenuButton({
                 ((active === undefined && pathname === href) || active) &&
                 "bg-secondary"
               }`}
-              href={href}
+              to={href}
             >
-              <p className="max-w-[180px] truncate">{label}</p>
+              <p className="max-w-45 truncate">{label}</p>
             </Link>
           </DropdownMenuItem>
         ))}
-        <DropdownMenuArrow className="fill-border" />
+        <DropdownMenuPrimitive.Arrow className="fill-border" />
       </DropdownMenuContent>
     </DropdownMenu>
   );

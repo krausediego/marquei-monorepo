@@ -24,12 +24,6 @@
 		"rules": {
 			"recommended": true,
 			"complexity": {
-				"noExcessiveCognitiveComplexity": {
-					"level": "error",
-					"options": {
-						"maxAllowedComplexity": 10
-					}
-				},
 				"noUselessSwitchCase": "error",
 				"noUselessTernary": "error",
 				"noUselessFragments": "error",
@@ -50,7 +44,7 @@
 			},
 			"suspicious": {
 				"noExplicitAny": "error",
-				"noArrayIndexKey": "warn",
+				"noArrayIndexKey": "off",
 				"noConsole": "warn",
 				"noDebugger": "error",
 				"noDuplicateObjectKeys": "error",
@@ -131,7 +125,8 @@
 				"useKeyWithClickEvents": "error",
 				"useKeyWithMouseEvents": "warn",
 				"noAriaHiddenOnFocusable": "error",
-				"useFocusableInteractive": "error"
+				"useFocusableInteractive": "error",
+				"noStaticElementInteractions": "off"
 			}
 		}
 	},

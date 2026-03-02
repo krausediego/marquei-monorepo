@@ -1,4 +1,5 @@
 import { createFileRoute, Outlet, redirect } from "@tanstack/react-router";
+import AdminPanelLayout from "@/components/admin-panel/admin-panel-layout";
 import { authClient } from "@/lib/better-auth";
 
 export const Route = createFileRoute("/_app")({
@@ -20,5 +21,9 @@ export const Route = createFileRoute("/_app")({
 });
 
 function RouteComponent() {
-  return <Outlet />;
+  return (
+    <AdminPanelLayout>
+      <Outlet />
+    </AdminPanelLayout>
+  );
 }

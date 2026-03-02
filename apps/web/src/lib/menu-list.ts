@@ -1,10 +1,9 @@
 import {
-  Bookmark,
+  BookmarkCheck,
+  CalendarDays,
   LayoutGrid,
   type LucideIcon,
-  Settings,
-  SquarePen,
-  Tag,
+  ShieldUser,
   Users,
 } from "lucide-react";
 
@@ -30,7 +29,7 @@ type Group = {
 export function getMenuList(pathname: string): Group[] {
   return [
     {
-      groupLabel: "",
+      groupLabel: "Principal",
       menus: [
         {
           href: "/dashboard",
@@ -38,50 +37,29 @@ export function getMenuList(pathname: string): Group[] {
           icon: LayoutGrid,
           submenus: [],
         },
-      ],
-    },
-    {
-      groupLabel: "Contents",
-      menus: [
         {
-          href: "",
-          label: "Posts",
-          icon: SquarePen,
-          submenus: [
-            {
-              href: "/posts",
-              label: "All Posts",
-            },
-            {
-              href: "/posts/new",
-              label: "New Post",
-            },
-          ],
+          href: "/schedule",
+          label: "Agenda",
+          icon: CalendarDays,
+          submenus: [],
         },
         {
-          href: "/categories",
-          label: "Categories",
-          icon: Bookmark,
+          href: "/bookings",
+          label: "Agendamentos",
+          icon: BookmarkCheck,
+          submenus: [],
         },
         {
-          href: "/tags",
-          label: "Tags",
-          icon: Tag,
+          href: "/clients",
+          label: "Clientes",
+          icon: Users,
+          submenus: [],
         },
-      ],
-    },
-    {
-      groupLabel: "Settings",
-      menus: [
         {
           href: "/users",
-          label: "Users",
-          icon: Users,
-        },
-        {
-          href: "/account",
-          label: "Account",
-          icon: Settings,
+          label: "Usuários",
+          icon: ShieldUser,
+          submenus: [],
         },
       ],
     },

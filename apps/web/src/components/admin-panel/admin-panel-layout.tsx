@@ -1,4 +1,3 @@
-import { Footer } from "@/components/admin-panel/footer";
 import { Sidebar } from "@/components/admin-panel/sidebar";
 import { useSidebar } from "@/hooks/use-sidebar";
 import { useStore } from "@/hooks/use-store";
@@ -23,14 +22,6 @@ export default function AdminPanelLayout({
       >
         {children}
       </main>
-      <footer
-        className={cn(
-          "transition-[margin-left] ease-in-out duration-300",
-          !settings.disabled && (!getOpenState() ? "lg:ml-22.5" : "lg:ml-72")
-        )}
-      >
-        <Footer />
-      </footer>
     </>
   );
 }

@@ -63,18 +63,18 @@ export function Menu({ isOpen }: MenuProps) {
                                   ? "secondary"
                                   : "ghost"
                               }
-                              className="w-full justify-start h-10 mb-1"
+                              className="w-full justify-start h-13 mb-1"
                               asChild
                             >
                               <Link to={href}>
                                 <span
                                   className={cn(isOpen === false ? "" : "mr-4")}
                                 >
-                                  <Icon size={18} />
+                                  <Icon size={22} />
                                 </span>
                                 <p
                                   className={cn(
-                                    "max-w-50 truncate",
+                                    "max-w-50 truncate font-light ",
                                     isOpen === false
                                       ? "-translate-x-96 opacity-0"
                                       : "translate-x-0 opacity-100"

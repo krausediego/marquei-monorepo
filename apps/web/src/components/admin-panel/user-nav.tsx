@@ -29,9 +29,9 @@ export function UserNav() {
             <DropdownMenuTrigger asChild>
               <Button
                 variant="outline"
-                className="relative h-8 w-8 rounded-full"
+                className="relative size-12 rounded-full"
               >
-                <Avatar className="h-8 w-8">
+                <Avatar className="size-12">
                   <AvatarImage src="#" alt="Avatar" />
                   <AvatarFallback className="bg-transparent">JD</AvatarFallback>
                 </Avatar>

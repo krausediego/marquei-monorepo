@@ -8,8 +8,11 @@ interface ContentLayoutProps {
 export function ContentLayout({ title, children }: ContentLayoutProps) {
   return (
     <div className="bg-background h-screen">
-      <Navbar title={title} />
-      <div className="container pt-8 pb-8 px-4 sm:px-8">{children}</div>
+      <Navbar />
+      <div className="container p-4 sm:px-8">
+        <h1 className="text-2xl font-bold">{title}</h1>
+        {children}
+      </div>
     </div>
   );
 }

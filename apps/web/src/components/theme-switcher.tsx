@@ -1,99 +1,80 @@
 "use client";
 
-import { MonitorIcon, MoonStarIcon, SunIcon } from "lucide-react";
-import { motion } from "motion/react";
-import type { JSX } from "react";
-import { useSyncExternalStore } from "react";
-
+import { MonitorIcon, MoonIcon, SunIcon } from "lucide-react";
+import * as React from "react";
+import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { useTheme } from "./theme-provider";
 
-function ThemeOption({
-  icon,
-  value,
-  isActive,
-  onClick,
-}: {
-  icon: JSX.Element;
-  value: string;
-  isActive?: boolean;
-  onClick: (value: string) => void;
-}) {
-  return (
-    <button
-      type="button"
-      className={cn(
-        "relative flex size-8 cursor-default items-center justify-center rounded-full transition-[color] [&_svg]:size-4",
-        isActive
-          ? "text-zinc-950 dark:text-zinc-50"
-          : "text-zinc-400 hover:text-zinc-950 dark:text-zinc-500 dark:hover:text-zinc-50"
-      )}
-      role="radio"
-      aria-checked={isActive}
-      aria-label={`Switch to ${value} theme`}
-      onClick={() => onClick(value)}
-    >
-      {icon}
-
-      {isActive && (
-        <motion.div
-          layoutId="theme-option"
-          transition={{ type: "spring", bounce: 0.3, duration: 0.6 }}
-          className="absolute inset-0 rounded-full border border-zinc-200 dark:border-zinc-700"
-        />
-      )}
-    </button>
-  );
+interface ThemeToggleProps
+  extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+  className?: string;
 }
 
-const THEME_OPTIONS = [
-  {
-    icon: <MonitorIcon />,
-    value: "system",
-  },
-  {
-    icon: <SunIcon />,
-    value: "light",
-  },
-  {
-    icon: <MoonStarIcon />,
-    value: "dark",
-  },
-];
-
-function ThemeSwitcher() {
+export const ThemeSwitcher = React.forwardRef<
+  HTMLButtonElement,
+  ThemeToggleProps
+>(({ className, ...props }, ref) => {
   const { theme, setTheme } = useTheme();
+  const [mounted, setMounted] = React.useState(false);
 
-  const isMounted = useSyncExternalStore(
-    () => () => {},
-    () => true,
-    () => false
-  );
+  React.useEffect(() => {
+    setMounted(true);
+  }, []);
 
-  if (!isMounted) {
-    return <div className="flex h-8 w-24" />;
+  const cycleTheme = () => {
+    if (theme === "system") {
+      setTheme("light");
+      return;
+    }
+    if (theme === "light") {
+      setTheme("dark");
+      return;
+    }
+    setTheme("system");
+  };
+
+  const getIcon = () => {
+    if (theme === "light") {
+      return <SunIcon className="size-5" />;
+    }
+    if (theme === "dark") {
+      return <MoonIcon className="size-5" />;
+    }
+    return <MonitorIcon className="size-5" />;
+  };
+
+  if (!mounted) {
+    return (
+      <Button
+        ref={ref}
+        variant="ghost"
+        size="icon"
+        {...props}
+        className={cn("size-7 text-sidebar-muted-foreground", className)}
+      >
+        <MonitorIcon className="size-4" />
+        <span className="sr-only">Toggle theme</span>
+      </Button>
+    );
   }
 
   return (
-    <motion.div
-      key={String(isMounted)}
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ duration: 0.3 }}
-      className="inline-flex items-center overflow-hidden rounded-full bg-white ring-1 ring-zinc-200 ring-inset dark:bg-zinc-950 dark:ring-zinc-700"
-      role="radiogroup"
+    <Button
+      ref={ref}
+      variant="outline"
+      size="icon"
+      {...props}
+      className={cn(
+        "size-12 rounded-full text-sidebar-muted-foreground",
+        className
+      )}
+      onClick={cycleTheme}
     >
-      {THEME_OPTIONS.map((option) => (
-        <ThemeOption
-          key={option.value}
-          icon={option.icon}
-          value={option.value}
-          isActive={theme === option.value}
-          onClick={setTheme}
-        />
-      ))}
-    </motion.div>
+      {getIcon()}
+      <span className="sr-only">Toggle theme</span>
+    </Button>
   );
-}
+});
 
-export { ThemeSwitcher };
+ThemeSwitcher.displayName = "ThemeToggle";

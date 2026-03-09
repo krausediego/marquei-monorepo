@@ -6,8 +6,7 @@ import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { useTheme } from "./theme-provider";
 
-interface ThemeToggleProps
-  extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+interface ThemeToggleProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   className?: string;
 }
 
@@ -36,12 +35,12 @@ export const ThemeSwitcher = React.forwardRef<
 
   const getIcon = () => {
     if (theme === "light") {
-      return <SunIcon className="size-5" />;
+      return <SunIcon className="size-4 text-muted-foreground" />;
     }
     if (theme === "dark") {
-      return <MoonIcon className="size-5" />;
+      return <MoonIcon className="size-4 text-muted-foreground" />;
     }
-    return <MonitorIcon className="size-5" />;
+    return <MonitorIcon className="size-4 text-muted-foreground" />;
   };
 
   if (!mounted) {
@@ -51,7 +50,7 @@ export const ThemeSwitcher = React.forwardRef<
         variant="ghost"
         size="icon"
         {...props}
-        className={cn("size-7 text-sidebar-muted-foreground", className)}
+        className={cn("size-9 text-sidebar-muted-foreground", className)}
       >
         <MonitorIcon className="size-4" />
         <span className="sr-only">Toggle theme</span>
@@ -66,7 +65,7 @@ export const ThemeSwitcher = React.forwardRef<
       size="icon"
       {...props}
       className={cn(
-        "size-12 rounded-full text-sidebar-muted-foreground",
+        "size-9 rounded-full text-sidebar-muted-foreground",
         className
       )}
       onClick={cycleTheme}

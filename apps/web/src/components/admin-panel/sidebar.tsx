@@ -7,11 +7,12 @@ import { useSidebar } from "@/hooks/use-sidebar";
 import { useStore } from "@/hooks/use-store";
 import { cn } from "@/lib/utils";
 import { Logo } from "../logo";
+import { SidebarToggle } from "./sidebar-toggle";
 
 export function Sidebar() {
   const sidebar = useStore(useSidebar, (x) => x);
   if (!sidebar) return null;
-  const { getOpenState, setIsHover, settings } = sidebar;
+  const { getOpenState, setIsHover, settings, isOpen, toggleOpen } = sidebar;
   return (
     <aside
       className={cn(
@@ -20,12 +21,13 @@ export function Sidebar() {
         settings.disabled && "hidden"
       )}
     >
+      <SidebarToggle isOpen={isOpen} setIsOpen={toggleOpen} />
       <div
         onMouseEnter={() => setIsHover(true)}
         onMouseLeave={() => setIsHover(false)}
-        className="relative h-full flex flex-col px-3 py-4 overflow-y-auto"
+        className="relative h-full flex flex-col px-3 py-4 overflow-y-auto justify-center"
       >
-        <Logo className="m-auto" />
+        <Logo isOpen={getOpenState()} className="m-auto transition-all" />
         <Menu isOpen={getOpenState()} />
       </div>
     </aside>

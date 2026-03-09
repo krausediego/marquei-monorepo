@@ -1,7 +1,9 @@
 "use client";
 
-import { Link } from "@tanstack/react-router";
+import { useMutation } from "@tanstack/react-query";
+import { Link, useNavigate, useRouteContext } from "@tanstack/react-router";
 import { LayoutGrid, LogOut, User } from "lucide-react";
+import { toast } from "sonner";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import {
@@ -19,23 +21,50 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { authClient } from "@/lib/better-auth";
 
 export function UserNav() {
+  const { user } = useRouteContext({ from: "/_app" });
+  const navigate = useNavigate();
+
+  const { mutateAsync: signOutFn } = useMutation({
+    mutationFn: async () => {
+      const { data, error } = await authClient.signOut();
+
+      if (error) {
+        throw new Error(error.message);
+      }
+
+      return data;
+    },
+    onError: (e) => toast.error(e.message),
+    onSuccess: () => navigate({ to: "/sign-in" }),
+  });
+
+  async function handleSignOut() {
+    await signOutFn();
+  }
+
   return (
     <DropdownMenu>
       <TooltipProvider disableHoverableContent>
         <Tooltip delayDuration={100}>
           <TooltipTrigger asChild>
             <DropdownMenuTrigger asChild>
-              <Button
+              {/* <Button
                 variant="outline"
-                className="relative size-12 rounded-full"
-              >
-                <Avatar className="size-12">
-                  <AvatarImage src="#" alt="Avatar" />
-                  <AvatarFallback className="bg-transparent">JD</AvatarFallback>
-                </Avatar>
-              </Button>
+                className="relative size-12 rounded-full border-primary/60 border-2"
+              > */}
+              <Avatar className="size-12 bg-primary/60 ring-2 ring-primary/80">
+                <AvatarImage
+                  src={user.image ?? "#"}
+                  alt="Avatar"
+                  className="scale-90 object-cover"
+                  style={{ objectPosition: "center 10%" }}
+                />
+                <AvatarFallback className="bg-transparent">JD</AvatarFallback>
+              </Avatar>
+              {/* </Button> */}
             </DropdownMenuTrigger>
           </TooltipTrigger>
           <TooltipContent side="bottom">Profile</TooltipContent>
@@ -45,9 +74,9 @@ export function UserNav() {
       <DropdownMenuContent className="w-56" align="end" forceMount>
         <DropdownMenuLabel className="font-normal">
           <div className="flex flex-col space-y-1">
-            <p className="text-sm font-medium leading-none">John Doe</p>
+            <p className="text-sm font-medium leading-none">{user.name}</p>
             <p className="text-xs leading-none text-muted-foreground">
-              johndoe@example.com
+              {user.email}
             </p>
           </div>
         </DropdownMenuLabel>
@@ -67,7 +96,10 @@ export function UserNav() {
           </DropdownMenuItem>
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
-        <DropdownMenuItem className="hover:cursor-pointer" onClick={() => {}}>
+        <DropdownMenuItem
+          className="hover:cursor-pointer"
+          onClick={handleSignOut}
+        >
           <LogOut className="w-4 h-4 mr-3 text-muted-foreground" />
           Sign out
         </DropdownMenuItem>

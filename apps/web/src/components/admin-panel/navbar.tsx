@@ -1,8 +1,8 @@
 import { Search } from "lucide-react";
 import { SheetMenu } from "@/components/admin-panel/sheet-menu";
 import { UserNav } from "@/components/admin-panel/user-nav";
+import { Notifications } from "../notifications";
 import { ThemeSwitcher } from "../theme-switcher";
-import { Input } from "../ui/input";
 import {
   InputGroup,
   InputGroupAddon,
@@ -12,10 +12,10 @@ import {
 export function Navbar() {
   return (
     <header className="sticky top-0 w-full z-10 bg-card backdrop-blur">
-      <div className="mx-4 sm:mx-8 flex h-14 md:h-24 items-center">
+      <div className="mx-4 sm:mx-8 flex h-14 md:h-20 items-center">
         <div className="flex items-center space-x-4 lg:space-x-0">
           <SheetMenu />
-          <InputGroup>
+          <InputGroup className="ml-6">
             <InputGroupInput
               placeholder="Buscar..."
               className="min-w-auto sm:min-w-sm"
@@ -25,7 +25,8 @@ export function Navbar() {
             </InputGroupAddon>
           </InputGroup>
         </div>
-        <div className="flex flex-1 gap-2 items-center justify-end">
+        <div className="flex flex-1 gap-4 items-center justify-end">
+          <Notifications />
           <ThemeSwitcher />
           <UserNav />
         </div>

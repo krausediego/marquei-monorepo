@@ -10,7 +10,6 @@ import {
   FieldSet,
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
-import { Spinner } from "@/components/ui/spinner";
 import { type SignInSchemaProps, signInSchema } from "@/modules/auth/schemas";
 
 interface SignInFormProps {
@@ -97,8 +96,12 @@ export function SignInForm({ onSubmit, isLoading }: SignInFormProps) {
           </FieldGroup>
         </FieldSet>
 
-        <Button type="submit" disabled={isLoading} className="w-full">
-          {isLoading && <Spinner />}
+        <Button
+          isLoading={isLoading}
+          type="submit"
+          disabled={isLoading}
+          className="w-full"
+        >
           Entrar
         </Button>
       </form>

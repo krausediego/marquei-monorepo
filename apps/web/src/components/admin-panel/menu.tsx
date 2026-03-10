@@ -1,7 +1,6 @@
 "use client";
 
 import { Link, useLocation } from "@tanstack/react-router";
-import { Ellipsis } from "lucide-react";
 import { CollapseMenuButton } from "@/components/admin-panel/collapse-menu-button";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";

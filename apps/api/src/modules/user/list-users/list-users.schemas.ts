@@ -1,6 +1,6 @@
+import { paginatedResponse, paginationQuery } from "@repo/shared";
 import { createSelectSchema } from "drizzle-typebox";
 import { type Static, t } from "elysia";
-import { paginatedResponse, paginationQuery } from "@/helpers";
 import { defineSchema } from "@/infra";
 import * as schema from "@/infra/database/schema";
 

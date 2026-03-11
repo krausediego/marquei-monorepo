@@ -1,9 +1,6 @@
+import { buildPaginationMeta, getPaginationOffset } from "@repo/shared";
 import { and, count, eq, ilike } from "drizzle-orm";
-import {
-  buildPaginationMeta,
-  getPaginationOffset,
-  setTraceId,
-} from "@/helpers";
+import { setTraceId } from "@/helpers";
 import { db, type ILoggingManager } from "@/infra";
 import * as schema from "@/infra/database/schema";
 import { BaseService } from "@/modules/shared";

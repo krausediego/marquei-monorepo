@@ -17,7 +17,7 @@ function RouteComponent() {
     <UsersProvider>
       <ContentLayout title="Usuários" className="space-y-4">
         <UsersHeader />
-        <UsersTable data={data?.data ?? []} />
+        <UsersTable data={data} />
       </ContentLayout>
     </UsersProvider>
   );

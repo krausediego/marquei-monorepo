@@ -1,17 +1,17 @@
 import { getRole } from "@repo/shared";
 import type { ColumnDef } from "@tanstack/react-table";
+import { MoreVertical } from "lucide-react";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
-import type { UsersTableColumns } from "../types";
+import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Button } from "@/components/ui/button";
-import { MoreVertical } from "lucide-react";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Checkbox } from "@/components/ui/checkbox";
+import type { UsersTableColumns } from "../types";
 
 export const usersColumns: ColumnDef<UsersTableColumns>[] = [
   {
@@ -58,6 +58,9 @@ export const usersColumns: ColumnDef<UsersTableColumns>[] = [
   {
     accessorKey: "phoneNumber",
     header: "Telefone",
+    cell: ({ row }) => {
+      return <p>{row.original.phoneNumber ?? "Não informado"}</p>;
+    },
   },
   {
     accessorKey: "role",
@@ -68,7 +71,7 @@ export const usersColumns: ColumnDef<UsersTableColumns>[] = [
   },
   {
     id: "actions",
-    cell: ({ row }) => {
+    cell: () => {
       return (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>

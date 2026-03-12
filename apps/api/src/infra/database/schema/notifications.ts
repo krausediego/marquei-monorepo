@@ -1,5 +1,5 @@
 import { randomUUIDv7 } from "bun";
-import { index, pgEnum, pgTable, text, timestamp } from "drizzle-orm/pg-core";
+import { pgEnum, pgTable, text, timestamp } from "drizzle-orm/pg-core";
 import { organizations, users } from ".";
 
 export const notificationTypeEnum = pgEnum("notification_type", [

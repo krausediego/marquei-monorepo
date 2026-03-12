@@ -9,7 +9,7 @@ export type ListUsersData = NonNullable<ListUsersResponse>["data"][number];
 
 export type UsersTableColumns = Pick<
   ListUsersData,
-  "id" | "email" | "name" | "image" | "role"
+  "id" | "email" | "name" | "image" | "role" | "phoneNumber"
 >;
 
 export type UsersContextValue = {

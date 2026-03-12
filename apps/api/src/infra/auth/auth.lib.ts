@@ -1,7 +1,7 @@
 import { stripe } from "@better-auth/stripe";
-import { APIError, betterAuth } from "better-auth";
+import { betterAuth } from "better-auth";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
-import { openAPI, organization } from "better-auth/plugins";
+import { openAPI, organization, phoneNumber } from "better-auth/plugins";
 import Stripe from "stripe";
 import { googleEnv, stripeEnv } from "@/infra/config";
 import { db } from "@/infra/database/client";
@@ -16,6 +16,7 @@ export const auth = betterAuth({
   trustedOrigins: ["http://localhost:5173"],
   plugins: [
     openAPI(),
+    phoneNumber(),
     organization({
       schema: {
         organization: {

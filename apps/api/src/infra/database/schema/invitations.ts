@@ -4,7 +4,7 @@ import { index, pgEnum, pgTable, text, timestamp } from "drizzle-orm/pg-core";
 import { organizations } from "./organizations";
 import { users } from "./users";
 
-export const invitationStatusTypeEnum = pgEnum("notification_type", [
+export const invitationStatusTypeEnum = pgEnum("invitation_type", [
   "pending",
   "accepted",
   "expired",

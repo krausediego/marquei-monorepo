@@ -1,4 +1,4 @@
-import { createContext, type ReactNode, useContext } from "react";
+import { createContext, type ReactNode, useContext, useMemo } from "react";
 
 import { useListUsers } from "../hooks";
 import { useUsersQueryStates } from "../hooks/use-users-query-states";
@@ -9,10 +9,17 @@ const UsersContext = createContext<UsersContextValue | null>(null);
 function UsersProvider({ children }: { children: ReactNode }) {
   const queryStates = useUsersQueryStates();
   const [query] = queryStates;
-  const { data } = useListUsers({
-    ...query,
-    search: query?.search ?? undefined,
-  });
+
+  const params = useMemo(
+    () => ({
+      ...query,
+      search: query?.search?.length ? query?.search : undefined,
+    }),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [JSON.stringify(query)]
+  );
+
+  const { data } = useListUsers(params);
 
   return (
     <UsersContext.Provider value={{ data, queryStates }}>

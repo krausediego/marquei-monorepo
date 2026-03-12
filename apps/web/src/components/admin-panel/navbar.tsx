@@ -11,7 +11,7 @@ import {
 
 export function Navbar() {
   return (
-    <header className="sticky top-0 w-full z-10 bg-card backdrop-blur">
+    <header className="sticky top-0 w-full z-10 bg-background border-b backdrop-blur">
       <div className="mx-4 sm:mx-8 flex h-14 md:h-20 items-center">
         <div className="flex items-center space-x-4 lg:space-x-0">
           <SheetMenu />

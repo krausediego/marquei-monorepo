@@ -4,15 +4,17 @@ import {
   useReactTable,
 } from "@tanstack/react-table";
 import { Table, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { useUsersContext } from "../contexts";
 import { usersColumns } from "./columns";
 import { UsersTableBody } from "./table-body";
+import type { ListUsersData } from "../types";
 
-export function UsersTable() {
-  const { data } = useUsersContext();
+interface UsersTableProps {
+  data: ListUsersData[];
+}
 
+export function UsersTable({ data }: UsersTableProps) {
   const table = useReactTable({
-    data: data?.data ?? [],
+    data,
     columns: usersColumns,
     getCoreRowModel: getCoreRowModel(),
   });

@@ -36,6 +36,20 @@
       "when": 1772124982877,
       "tag": "0004_furry_shotgun",
       "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1773322169430,
+      "tag": "0005_lucky_mad_thinker",
+      "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1773324383969,
+      "tag": "0006_cloudy_mathemanic",
+      "breakpoints": true
     }
   ]
 }

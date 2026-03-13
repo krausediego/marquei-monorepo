@@ -22,3 +22,8 @@ export type UsersContextValue = {
     }>
   >;
 };
+
+export interface UserTableMeta {
+  onDelete: (id: string) => void;
+  isLoading: boolean;
+}

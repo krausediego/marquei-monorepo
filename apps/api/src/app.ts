@@ -36,17 +36,14 @@ export class App {
     this.app.onRequest(async ({ request }) => {
       const url = new URL(request.url);
 
-      console.log("URLLL", url);
-
       // Lista de rotas que NÃO devem ter delay
       const exceptions = ["/api/v1/auth/get-session"];
 
       if (exceptions.includes(url.pathname)) {
-        console.log("CAIU NO IF");
         return; // Sai da função sem esperar
       }
 
-      await new Promise((resolve) => setTimeout(resolve, 2000));
+      await new Promise((resolve) => setTimeout(resolve, 5000));
     });
     return this;
   }

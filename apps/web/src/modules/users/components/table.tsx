@@ -10,6 +10,10 @@ import type { ListUsersResponse } from "../types";
 import { usersColumns } from "./columns";
 import { UsersTableBody } from "./table-body";
 import { UsersTableSkeleton } from "./table-skeleton";
+import { useRevokeUser } from "../hooks";
+import { useConfirmDialog } from "@/hooks/use-confirm-dialog";
+import { AlertDialog } from "@/components/ui/alert-dialog";
+import { UsersAlertDialogRevokeUser } from "./alert-dialog-revoke-user";
 
 interface UsersTableProps {
   isLoading: boolean;
@@ -18,6 +22,16 @@ interface UsersTableProps {
 
 export function UsersTable({ data, isLoading }: UsersTableProps) {
   const [{ page, limit }, setQueryState] = useUsersQueryStates();
+  const { mutateAsync, isPending } = useRevokeUser();
+  const { open, setOpen, openDialog, confirm, handleOpenChange } =
+    useConfirmDialog({
+      isPending,
+      onConfirm: (id: string) =>
+        mutateAsync(id, {
+          onSuccess: () => setOpen(false),
+          onError: () => setOpen(false),
+        }),
+    });
 
   const table = useReactTable({
     data: data?.data ?? [],
@@ -31,6 +45,10 @@ export function UsersTable({ data, isLoading }: UsersTableProps) {
           : updater;
 
       setQueryState({ page: next.pageIndex + 1, limit: next.pageSize });
+    },
+    meta: {
+      onDelete: openDialog,
+      isLoading: isLoading || isPending,
     },
     manualPagination: true,
     getCoreRowModel: getCoreRowModel(),
@@ -66,6 +84,14 @@ export function UsersTable({ data, isLoading }: UsersTableProps) {
           )}
         </Table>
       </div>
+
+      <AlertDialog open={open} onOpenChange={handleOpenChange}>
+        <UsersAlertDialogRevokeUser
+          isLoading={isPending}
+          revokeActionFn={confirm}
+        />
+      </AlertDialog>
+
       <Pagination table={table} isLoading={isLoading} {...data?.meta} />
     </>
   );

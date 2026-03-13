@@ -3,6 +3,7 @@ import Elysia from "elysia";
 // importa as rotas estaticamente — só para o TypeScript, nunca executado no servidor
 import helloWorld from "./routes/v1/hello-world";
 import invitation from "./routes/v1/invitation";
+import member from "./routes/v1/member";
 import notification from "./routes/v1/notification";
 import organization from "./routes/v1/organization";
 import user from "./routes/v1/user";
@@ -13,6 +14,7 @@ const app = new Elysia({ prefix: "/api/v1" })
   .use(organization)
   .use(user)
   .use(invitation)
-  .use(notification);
+  .use(notification)
+  .use(member);
 
 export type AppType = typeof app;

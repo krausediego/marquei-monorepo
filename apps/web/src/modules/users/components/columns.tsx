@@ -11,7 +11,9 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import type { UsersTableColumns } from "../types";
+import type { UsersTableColumns, UserTableMeta } from "../types";
+import { AlertDialog, AlertDialogTrigger } from "@/components/ui/alert-dialog";
+import { UsersAlertDialogRevokeUser } from "./alert-dialog-revoke-user";
 
 export const usersColumns: ColumnDef<UsersTableColumns>[] = [
   {
@@ -71,7 +73,9 @@ export const usersColumns: ColumnDef<UsersTableColumns>[] = [
   },
   {
     id: "actions",
-    cell: () => {
+    cell: ({ row, table }) => {
+      const meta = table.options.meta as UserTableMeta;
+
       return (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
@@ -81,7 +85,12 @@ export const usersColumns: ColumnDef<UsersTableColumns>[] = [
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
-            <DropdownMenuItem>Editar</DropdownMenuItem>
+            <DropdownMenuItem
+              disabled={meta.isLoading}
+              onClick={() => meta.onDelete(row.original.id)}
+            >
+              Revogar acesso
+            </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       );

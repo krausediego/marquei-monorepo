@@ -1,0 +1,15 @@
+info:
+  name: Revoke member
+  type: http
+  seq: 1
+
+http:
+  method: POST
+  url: "{{baseURL}}{{prefix}}/member/revoke/019ce377-427e-7000-896c-131c936dfb1d"
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

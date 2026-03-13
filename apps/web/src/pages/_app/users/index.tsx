@@ -11,13 +11,13 @@ export const Route = createFileRoute("/_app/users/")({
 });
 
 function RouteComponent() {
-  const { data, isLoading } = useListUsers();
+  const { data, isLoading, isRefetching } = useListUsers();
 
   return (
     <UsersProvider>
       <ContentLayout title="Usuários" className="space-y-4">
         <UsersHeader />
-        <UsersTable data={data} isLoading={isLoading} />
+        <UsersTable data={data} isLoading={isLoading || isRefetching} />
       </ContentLayout>
     </UsersProvider>
   );

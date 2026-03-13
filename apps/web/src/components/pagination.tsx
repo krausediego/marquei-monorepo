@@ -35,16 +35,16 @@ export function Pagination<T>({
         {table.getFilteredSelectedRowModel().rows.length} of{" "}
         {table.getFilteredRowModel().rows.length} row(s) selected.
       </div> */}
-      <div className="flex items-center space-x-6 lg:space-x-8">
+      <div className="flex items-center space-x-6 lg:space-x-8 ml-auto">
         <div className="flex items-center space-x-2">
           <p className="text-sm font-medium">Rows per page</p>
           <Select
-            value={`${table.getState().pagination.pageSize}`}
+            defaultValue={String(table.getState().pagination.pageSize)}
             onValueChange={(value) => {
               table.setPageSize(Number(value));
             }}
           >
-            <SelectTrigger className="h-8 w-[70px]">
+            <SelectTrigger className="h-8 w-17.5">
               <SelectValue placeholder={table.getState().pagination.pageSize} />
             </SelectTrigger>
             <SelectContent side="top">

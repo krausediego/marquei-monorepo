@@ -7,7 +7,7 @@
     "dev:email": "email dev --dir src/infra/email-templates",
     "db:generate": "bun --env-file .env --bun drizzle-kit generate",
     "db:migrate": "bun --env-file .env --bun drizzle-kit migrate",
-    "seed": "bun src/database/seed.ts",
+    "seed": "bun src/infra/database/seed.ts",
     "generate": "bun scripts/generate-module.ts"
   },
   "dependencies": {

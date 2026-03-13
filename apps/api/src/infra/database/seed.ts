@@ -1,9 +1,9 @@
 import { faker } from "@faker-js/faker";
-import { auth } from "@/auth";
+import { auth } from "@/infra/auth";
 import { db } from "./client";
 import * as schema from "./schema";
 
-const organizationId = "019c283e-9f1a-7000-aca0-4cdce7ef6bda";
+const organizationId = "019ce2d1-0052-7000-9656-c9629ab57d0e";
 
 /**
  * Create users
@@ -15,6 +15,7 @@ await Promise.all(
         name: faker.person.fullName(),
         email: faker.internet.email(),
         password: faker.internet.password(),
+        phoneNumber: faker.phone.number({ style: "national" }),
         image: faker.image.avatar(),
       },
     });

@@ -44,8 +44,8 @@ http:
         value: "89259695"
       - name: logo
         type: file
-        value:
-          - /Users/diegokrause/Pictures/Frame 12.jpg
+        value: []
+        disabled: true
   auth: inherit
 
 settings:

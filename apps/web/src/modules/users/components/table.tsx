@@ -59,14 +59,14 @@ export function UsersTable({ data, isLoading }: UsersTableProps) {
             ))}
           </TableHeader>
 
-          {true ? (
+          {isLoading ? (
             <UsersTableSkeleton />
           ) : (
             <UsersTableBody rows={table.getRowModel().rows} />
           )}
         </Table>
       </div>
-      <Pagination table={table} {...data?.meta} />
+      <Pagination table={table} isLoading={isLoading} {...data?.meta} />
     </>
   );
 }

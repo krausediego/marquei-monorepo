@@ -13,6 +13,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "./ui/select";
+import { Skeleton } from "./ui/skeleton";
 
 interface PaginationProps<T> {
   table: Table<T>;
@@ -20,6 +21,7 @@ interface PaginationProps<T> {
   totalPages?: number;
   hasNextPage?: boolean;
   hasPrevPage?: boolean;
+  isLoading?: boolean;
 }
 
 export function Pagination<T>({
@@ -28,6 +30,7 @@ export function Pagination<T>({
   hasNextPage,
   hasPrevPage,
   table,
+  isLoading,
 }: PaginationProps<T>) {
   return (
     <div className="flex items-center justify-between px-2">
@@ -37,7 +40,7 @@ export function Pagination<T>({
       </div> */}
       <div className="flex items-center space-x-6 lg:space-x-8 ml-auto">
         <div className="flex items-center space-x-2">
-          <p className="text-sm font-medium">Rows per page</p>
+          <p className="text-sm font-medium">Linhas por páginas</p>
           <Select
             defaultValue={String(table.getState().pagination.pageSize)}
             onValueChange={(value) => {
@@ -56,16 +59,20 @@ export function Pagination<T>({
             </SelectContent>
           </Select>
         </div>
-        <div className="flex w-25 items-center justify-center text-sm font-medium">
-          Page {page} of {totalPages}
-        </div>
+        {isLoading ? (
+          <Skeleton className="h-8 w-24" />
+        ) : (
+          <div className="flex w-25 items-center justify-center text-sm font-medium">
+            Página {page} de {totalPages}
+          </div>
+        )}
         <div className="flex items-center space-x-2">
           <Button
             variant="outline"
             size="icon"
             className="hidden size-8 lg:flex"
             onClick={() => table.setPageIndex(0)}
-            disabled={!hasPrevPage}
+            disabled={!hasPrevPage || isLoading}
           >
             <span className="sr-only">Go to first page</span>
             <ChevronsLeft />
@@ -75,7 +82,7 @@ export function Pagination<T>({
             size="icon"
             className="size-8"
             onClick={() => table.previousPage()}
-            disabled={!hasPrevPage}
+            disabled={!hasPrevPage || isLoading}
           >
             <span className="sr-only">Go to previous page</span>
             <ChevronLeft />
@@ -85,7 +92,7 @@ export function Pagination<T>({
             size="icon"
             className="size-8"
             onClick={() => table.nextPage()}
-            disabled={!hasNextPage}
+            disabled={!hasNextPage || isLoading}
           >
             <span className="sr-only">Go to next page</span>
             <ChevronRight />
@@ -95,7 +102,7 @@ export function Pagination<T>({
             size="icon"
             className="hidden size-8 lg:flex"
             onClick={() => table.setPageIndex(table.getPageCount() - 1)}
-            disabled={!hasNextPage}
+            disabled={!hasNextPage || isLoading}
           >
             <span className="sr-only">Go to last page</span>
             <ChevronsRight />

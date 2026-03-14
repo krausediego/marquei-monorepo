@@ -1,9 +1,13 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { revokeUser } from "../api";
 import { toast } from "sonner";
+import { revokeUser } from "../api";
 import { userKeys } from "../users.keys";
 
-export function useRevokeUser() {
+interface RevokeUserProps {
+  onClose: () => void;
+}
+
+export function useRevokeUser({ onClose }: RevokeUserProps) {
   const queryClient = useQueryClient();
 
   return useMutation({
@@ -17,6 +21,8 @@ export function useRevokeUser() {
     onSuccess: ({ message }) => {
       queryClient.invalidateQueries({ queryKey: userKeys.all() });
       toast.success(message);
+
+      onClose();
     },
   });
 }

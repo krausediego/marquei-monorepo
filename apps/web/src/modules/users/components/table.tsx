@@ -3,17 +3,19 @@ import {
   getCoreRowModel,
   useReactTable,
 } from "@tanstack/react-table";
+import { useState } from "react";
 import { Pagination } from "@/components/pagination";
+import { AlertDialog } from "@/components/ui/alert-dialog";
 import { Table, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { useConfirmDialog } from "@/hooks/use-confirm-dialog";
+import { useDisclosure } from "@/hooks/use-disclosure";
+import { useRevokeUser } from "../hooks";
 import { useUsersQueryStates } from "../hooks/use-users-query-states";
 import type { ListUsersResponse } from "../types";
+import { UsersAlertDialogRevokeUser } from "./alert-dialog-revoke-user";
 import { usersColumns } from "./columns";
 import { UsersTableBody } from "./table-body";
 import { UsersTableSkeleton } from "./table-skeleton";
-import { useRevokeUser } from "../hooks";
-import { useConfirmDialog } from "@/hooks/use-confirm-dialog";
-import { AlertDialog } from "@/components/ui/alert-dialog";
-import { UsersAlertDialogRevokeUser } from "./alert-dialog-revoke-user";
 
 interface UsersTableProps {
   isLoading: boolean;
@@ -22,16 +24,14 @@ interface UsersTableProps {
 
 export function UsersTable({ data, isLoading }: UsersTableProps) {
   const [{ page, limit }, setQueryState] = useUsersQueryStates();
-  const { mutateAsync, isPending } = useRevokeUser();
-  const { open, setOpen, openDialog, confirm, handleOpenChange } =
-    useConfirmDialog({
-      isPending,
-      onConfirm: (id: string) =>
-        mutateAsync(id, {
-          onSuccess: () => setOpen(false),
-          onError: () => setOpen(false),
-        }),
-    });
+  const [selectedId, setSelectedId] = useState<string | null>(null);
+  const { isOpen, toggle, close, open } = useDisclosure();
+  const { mutateAsync, isPending } = useRevokeUser({ onClose: close });
+
+  const openDialog = (id: string) => {
+    setSelectedId(id);
+    open();
+  };
 
   const table = useReactTable({
     data: data?.data ?? [],
@@ -85,10 +85,12 @@ export function UsersTable({ data, isLoading }: UsersTableProps) {
         </Table>
       </div>
 
-      <AlertDialog open={open} onOpenChange={handleOpenChange}>
+      <AlertDialog open={isOpen} onOpenChange={toggle}>
         <UsersAlertDialogRevokeUser
           isLoading={isPending}
-          revokeActionFn={confirm}
+          revokeActionFn={async () => {
+            if (selectedId) await mutateAsync(selectedId);
+          }}
         />
       </AlertDialog>
 

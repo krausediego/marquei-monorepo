@@ -43,7 +43,7 @@ export class App {
         return; // Sai da função sem esperar
       }
 
-      await new Promise((resolve) => setTimeout(resolve, 5000));
+      await new Promise((resolve) => setTimeout(resolve, 1500));
     });
     return this;
   }

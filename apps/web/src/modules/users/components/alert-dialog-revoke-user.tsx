@@ -7,6 +7,7 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
+import { Button } from "@/components/ui/button";
 
 interface UsersAlertDialogRevokeUserProps {
   revokeActionFn: () => void;
@@ -34,13 +35,13 @@ export function UsersAlertDialogRevokeUser({
       </AlertDialogHeader>
       <AlertDialogFooter>
         <AlertDialogCancel disabled={isLoading}>Cancelar</AlertDialogCancel>
-        <AlertDialogAction
+        <Button
           isLoading={isLoading}
           variant="destructive"
           onClick={revokeActionFn}
         >
           Confirmar
-        </AlertDialogAction>
+        </Button>
       </AlertDialogFooter>
     </AlertDialogContent>
   );

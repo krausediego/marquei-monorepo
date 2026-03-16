@@ -3,7 +3,7 @@ import { auth } from "@/infra/auth";
 import { db } from "./client";
 import * as schema from "./schema";
 
-const organizationId = "019c8f40-b685-7000-a2ce-982870568a57";
+const organizationId = "019ce2d1-0052-7000-9656-c9629ab57d0e";
 
 /**
  * Create users
@@ -20,11 +20,11 @@ await Promise.all(
       },
     });
 
-    await db.insert(schema.members).values({
-      userId: user.id,
-      organizationId,
-      createdAt: new Date(),
-    });
+    // await db.insert(schema.members).values({
+    //   userId: user.id,
+    //   organizationId,
+    //   createdAt: new Date(),
+    // });
   })
 );
 

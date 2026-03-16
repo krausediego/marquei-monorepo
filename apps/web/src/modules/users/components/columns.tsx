@@ -1,6 +1,6 @@
 import { getRole } from "@repo/shared";
 import type { ColumnDef } from "@tanstack/react-table";
-import { MoreVertical } from "lucide-react";
+import { Ban, MoreVertical } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -12,88 +12,91 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import type { UsersTableColumns, UserTableMeta } from "../types";
-import { AlertDialog, AlertDialogTrigger } from "@/components/ui/alert-dialog";
-import { UsersAlertDialogRevokeUser } from "./alert-dialog-revoke-user";
 
-export const usersColumns: ColumnDef<UsersTableColumns>[] = [
-  {
-    id: "select",
-    header: ({ table }) => (
-      <Checkbox
-        checked={
-          table.getIsAllPageRowsSelected() ||
-          (table.getIsSomePageRowsSelected() && "indeterminate")
-        }
-        onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-        aria-label="Select all"
-      />
-    ),
-    cell: ({ row }) => (
-      <Checkbox
-        checked={row.getIsSelected()}
-        onCheckedChange={(value) => row.toggleSelected(!!value)}
-        aria-label="Select row"
-      />
-    ),
-  },
-  {
-    accessorKey: "name",
-    header: "Nome",
-    cell: ({ row }) => {
-      console.log("row", row);
+export function usersColumns(userId: string): ColumnDef<UsersTableColumns>[] {
+  return [
+    {
+      id: "select",
+      header: ({ table }) => (
+        <Checkbox
+          checked={
+            table.getIsAllPageRowsSelected() ||
+            (table.getIsSomePageRowsSelected() && "indeterminate")
+          }
+          onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
+          aria-label="Select all"
+        />
+      ),
+      cell: ({ row }) => (
+        <Checkbox
+          checked={row.getIsSelected()}
+          onCheckedChange={(value) => row.toggleSelected(!!value)}
+          aria-label="Select row"
+        />
+      ),
+    },
+    {
+      accessorKey: "name",
+      header: "Nome",
+      cell: ({ row }) => {
+        console.log("row", row);
 
-      return (
-        <div className="flex items-center gap-2">
-          <Avatar>
-            <AvatarImage src={row.original.image ?? "#"} />
-            <AvatarFallback>{String(row.getValue("name"))[0]}</AvatarFallback>
-          </Avatar>
-          <p>{row.original.name}</p>
-        </div>
-      );
+        return (
+          <div className="flex items-center gap-2">
+            <Avatar>
+              <AvatarImage src={row.original.image ?? "#"} />
+              <AvatarFallback>{String(row.getValue("name"))[0]}</AvatarFallback>
+            </Avatar>
+            <p>{row.original.name}</p>
+          </div>
+        );
+      },
     },
-  },
-  {
-    accessorKey: "email",
-    header: "E-mail",
-  },
-  {
-    accessorKey: "phoneNumber",
-    header: "Telefone",
-    cell: ({ row }) => {
-      return <p>{row.original.phoneNumber ?? "Não informado"}</p>;
+    {
+      accessorKey: "email",
+      header: "E-mail",
     },
-  },
-  {
-    accessorKey: "role",
-    header: "Permissão",
-    cell: ({ row }) => {
-      return <Badge>{getRole(row.getValue("role"))}</Badge>;
+    {
+      accessorKey: "phoneNumber",
+      header: "Telefone",
+      cell: ({ row }) => {
+        return <p>{row.original.phoneNumber ?? "Não informado"}</p>;
+      },
     },
-  },
-  {
-    id: "actions",
-    cell: ({ row, table }) => {
-      const meta = table.options.meta as UserTableMeta;
+    {
+      accessorKey: "role",
+      header: "Permissão",
+      cell: ({ row }) => {
+        return <Badge>{getRole(row.getValue("role"))}</Badge>;
+      },
+    },
+    {
+      id: "actions",
+      cell: ({ row, table }) => {
+        const meta = table.options.meta as UserTableMeta;
 
-      return (
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="ghost" className="p-0 size-8">
-              <span className="sr-only">Open menu</span>
-              <MoreVertical className="size-4" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuItem
-              disabled={meta.isLoading}
-              onClick={() => meta.onDelete(row.original.id)}
-            >
-              Revogar acesso
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
-      );
+        return (
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="ghost" className="p-0 size-8">
+                <span className="sr-only">Open menu</span>
+                <MoreVertical className="size-4" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              <DropdownMenuItem
+                disabled={meta.isLoading || row.original.id === userId}
+                onClick={() =>
+                  meta.onDelete(row.original.id, row.original.name)
+                }
+              >
+                <Ban />
+                Revogar acesso
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        );
+      },
     },
-  },
-];
+  ];
+}

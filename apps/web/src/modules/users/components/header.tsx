@@ -1,17 +1,26 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { useUsersQueryStates } from "../hooks/use-users-query-states";
 import { Download, Plus } from "lucide-react";
+import { useUsersContext } from "../contexts";
+import { Dialog, DialogTrigger } from "@/components/ui/dialog";
+import { InviteUserDialog } from "./invite-user-dialog";
+import { useDisclosure } from "@/hooks/use-disclosure";
 
 export function UsersHeader() {
-  const [{ search }, setQueryState] = useUsersQueryStates();
+  const { isOpen, toggle, close } = useDisclosure();
+  const { queryStates } = useUsersContext();
+  const [{ search }, setQueryState] = queryStates;
 
   return (
     <div className="flex flex-col md:flex-row items-center gap-4 justify-between">
       <Input
         placeholder="Busque pelo nome..."
         value={search ?? ""}
-        onChange={(e) => setQueryState({ search: e.target.value })}
+        onChange={(e) =>
+          setQueryState({
+            search: e.target.value.length ? e.target.value : null,
+          })
+        }
         className="md:w-auto min-w-xs"
       />
 
@@ -20,10 +29,16 @@ export function UsersHeader() {
           <Download />
           Exportar CSV
         </Button>
-        <Button className="flex-1 md:flex-0">
-          <Plus />
-          Convidar usuário
-        </Button>
+        <Dialog open={isOpen} onOpenChange={toggle}>
+          <DialogTrigger asChild>
+            <Button className="flex-1 md:flex-0">
+              <Plus />
+              Convidar usuário
+            </Button>
+          </DialogTrigger>
+
+          <InviteUserDialog onClose={close} />
+        </Dialog>
       </div>
     </div>
   );

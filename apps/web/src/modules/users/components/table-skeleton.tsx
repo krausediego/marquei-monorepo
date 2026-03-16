@@ -1,11 +1,16 @@
 import { Skeleton } from "@/components/ui/skeleton";
 import { TableBody, TableCell, TableRow } from "@/components/ui/table";
 import { MoreVertical } from "lucide-react";
+import { useUsersContext } from "../contexts";
 
 export function UsersTableSkeleton() {
+  const {
+    queryStates: [{ limit }],
+  } = useUsersContext();
+
   return (
     <TableBody>
-      {Array.from({ length: 10 }).map((_, i) => {
+      {Array.from({ length: limit ?? 10 }).map((_, i) => {
         return (
           <TableRow>
             <TableCell>

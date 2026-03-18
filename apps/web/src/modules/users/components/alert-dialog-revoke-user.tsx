@@ -7,17 +7,14 @@ import {
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
-import { useUsersContext } from "../contexts";
 
 export function UsersAlertDialogRevokeUser() {
-  const { isPending, handleRevokeUser, selectedName } = useUsersContext();
-
   return (
     <AlertDialogContent
       onEscapeKeyDown={(e) => {
-        if (isPending) {
-          e.preventDefault();
-        }
+        // if (isPending) {
+        //   e.preventDefault();
+        // }
       }}
     >
       <AlertDialogHeader>
@@ -25,17 +22,17 @@ export function UsersAlertDialogRevokeUser() {
         <AlertDialogDescription>
           Tem certeza que deseja revogar o acesso de{" "}
           <strong>
-            <i className="text-destructive">{selectedName}</i>
+            {/* <i className="text-destructive">{selectedName}</i> */}
           </strong>
           ? Ele não conseguirá mais acessar o estabelecimento.
         </AlertDialogDescription>
       </AlertDialogHeader>
       <AlertDialogFooter>
-        <AlertDialogCancel disabled={isPending}>Cancelar</AlertDialogCancel>
+        <AlertDialogCancel>Cancelar</AlertDialogCancel>
         <Button
-          isLoading={isPending}
+          // isLoading={isPending}
           variant="destructive"
-          onClick={handleRevokeUser}
+          // onClick={handleRevokeUser}
         >
           Revogar acesso
         </Button>

@@ -4,6 +4,8 @@ const role = {
   member: "Membro",
 };
 
-export function getRole(roleProp: keyof typeof role) {
+export type RoleProp = keyof typeof role;
+
+export function getRole(roleProp: RoleProp) {
   return role[roleProp];
 }

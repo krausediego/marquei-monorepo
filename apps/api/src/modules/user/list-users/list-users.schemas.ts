@@ -6,7 +6,10 @@ import * as schema from "@/infra/database/schema";
 
 const User = createSelectSchema(schema.users);
 
-const UserWithRole = t.Intersect([User, t.Object({ role: t.String() })]);
+const UserWithRole = t.Intersect([
+  User,
+  t.Object({ role: t.String(), memberAt: t.Date() }),
+]);
 
 export const listUsersSchema = defineSchema({
   response: {

@@ -1,3 +1,5 @@
+import { Mail } from "lucide-react";
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
   DialogClose,
@@ -12,9 +14,6 @@ import {
   InputGroupAddon,
   InputGroupInput,
 } from "@/components/ui/input-group";
-import { Mail } from "lucide-react";
-import { useState } from "react";
-import { useUsersContext } from "../contexts";
 
 interface InviteUserDialogProps {
   onClose: () => void;
@@ -22,10 +21,9 @@ interface InviteUserDialogProps {
 
 export function InviteUserDialog({ onClose }: InviteUserDialogProps) {
   const [email, setEmail] = useState<string>("");
-  const { handleInviteUser, isPending } = useUsersContext();
 
   return (
-    <DialogContent isLoading={isPending}>
+    <DialogContent>
       <DialogHeader>
         <DialogTitle>Convidar usuário</DialogTitle>
         <DialogDescription>
@@ -46,15 +44,15 @@ export function InviteUserDialog({ onClose }: InviteUserDialogProps) {
       </InputGroup>
 
       <DialogFooter>
-        <DialogClose disabled={isPending} asChild>
+        <DialogClose asChild>
           <Button variant="outline">Cancelar</Button>
         </DialogClose>
         <Button
-          isLoading={isPending}
-          onClick={async () => {
-            await handleInviteUser(email);
-            onClose();
-          }}
+        // isLoading={isPending}
+        // onClick={async () => {
+        //   await handleInviteUser(email);
+        //   onClose();
+        // }}
         >
           Enviar convite
         </Button>

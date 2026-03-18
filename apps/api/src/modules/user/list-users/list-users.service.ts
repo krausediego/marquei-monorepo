@@ -1,5 +1,4 @@
 import { buildPaginationMeta, getPaginationOffset } from "@repo/shared";
-import { phoneNumber } from "better-auth/plugins";
 import { and, count, eq, ilike } from "drizzle-orm";
 import { setTraceId } from "@/helpers";
 import { db, type ILoggingManager } from "@/infra";
@@ -41,6 +40,7 @@ export class ListUsersService extends BaseService implements IListUsers {
           emailVerified: schema.users.emailVerified,
           image: schema.users.image,
           role: schema.members.role,
+          memberAt: schema.members.createdAt,
           phoneNumber: schema.users.phoneNumber,
           phoneNumberVerified: schema.users.phoneNumberVerified,
           stripeCustomerId: schema.users.stripeCustomerId,

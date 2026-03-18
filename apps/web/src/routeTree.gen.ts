@@ -11,7 +11,6 @@
 import { Route as rootRouteImport } from './pages/__root'
 import { Route as AuthLayoutRouteImport } from './pages/_auth/layout'
 import { Route as AppLayoutRouteImport } from './pages/_app/layout'
-import { Route as AppUsersLayoutRouteImport } from './pages/_app/users/layout'
 import { Route as AuthSignInIndexRouteImport } from './pages/_auth/sign-in/index'
 import { Route as AppUsersIndexRouteImport } from './pages/_app/users/index'
 import { Route as AppScheduleIndexRouteImport } from './pages/_app/schedule/index'
@@ -27,20 +26,15 @@ const AppLayoutRoute = AppLayoutRouteImport.update({
   id: '/_app',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AppUsersLayoutRoute = AppUsersLayoutRouteImport.update({
-  id: '/users',
-  path: '/users',
-  getParentRoute: () => AppLayoutRoute,
-} as any)
 const AuthSignInIndexRoute = AuthSignInIndexRouteImport.update({
   id: '/sign-in/',
   path: '/sign-in/',
   getParentRoute: () => AuthLayoutRoute,
 } as any)
 const AppUsersIndexRoute = AppUsersIndexRouteImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => AppUsersLayoutRoute,
+  id: '/users/',
+  path: '/users/',
+  getParentRoute: () => AppLayoutRoute,
 } as any)
 const AppScheduleIndexRoute = AppScheduleIndexRouteImport.update({
   id: '/schedule/',
@@ -65,7 +59,6 @@ const AppBookingsIndexRoute = AppBookingsIndexRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof AuthLayoutRouteWithChildren
-  '/users': typeof AppUsersLayoutRouteWithChildren
   '/bookings/': typeof AppBookingsIndexRoute
   '/clients/': typeof AppClientsIndexRoute
   '/dashboard/': typeof AppDashboardIndexRoute
@@ -86,7 +79,6 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/_app': typeof AppLayoutRouteWithChildren
   '/_auth': typeof AuthLayoutRouteWithChildren
-  '/_app/users': typeof AppUsersLayoutRouteWithChildren
   '/_app/bookings/': typeof AppBookingsIndexRoute
   '/_app/clients/': typeof AppClientsIndexRoute
   '/_app/dashboard/': typeof AppDashboardIndexRoute
@@ -98,7 +90,6 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
-    | '/users'
     | '/bookings/'
     | '/clients/'
     | '/dashboard/'
@@ -118,7 +109,6 @@ export interface FileRouteTypes {
     | '__root__'
     | '/_app'
     | '/_auth'
-    | '/_app/users'
     | '/_app/bookings/'
     | '/_app/clients/'
     | '/_app/dashboard/'
@@ -148,13 +138,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppLayoutRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/_app/users': {
-      id: '/_app/users'
-      path: '/users'
-      fullPath: '/users'
-      preLoaderRoute: typeof AppUsersLayoutRouteImport
-      parentRoute: typeof AppLayoutRoute
-    }
     '/_auth/sign-in/': {
       id: '/_auth/sign-in/'
       path: '/sign-in'
@@ -164,10 +147,10 @@ declare module '@tanstack/react-router' {
     }
     '/_app/users/': {
       id: '/_app/users/'
-      path: '/'
+      path: '/users'
       fullPath: '/users/'
       preLoaderRoute: typeof AppUsersIndexRouteImport
-      parentRoute: typeof AppUsersLayoutRoute
+      parentRoute: typeof AppLayoutRoute
     }
     '/_app/schedule/': {
       id: '/_app/schedule/'
@@ -200,32 +183,20 @@ declare module '@tanstack/react-router' {
   }
 }
 
-interface AppUsersLayoutRouteChildren {
-  AppUsersIndexRoute: typeof AppUsersIndexRoute
-}
-
-const AppUsersLayoutRouteChildren: AppUsersLayoutRouteChildren = {
-  AppUsersIndexRoute: AppUsersIndexRoute,
-}
-
-const AppUsersLayoutRouteWithChildren = AppUsersLayoutRoute._addFileChildren(
-  AppUsersLayoutRouteChildren,
-)
-
 interface AppLayoutRouteChildren {
-  AppUsersLayoutRoute: typeof AppUsersLayoutRouteWithChildren
   AppBookingsIndexRoute: typeof AppBookingsIndexRoute
   AppClientsIndexRoute: typeof AppClientsIndexRoute
   AppDashboardIndexRoute: typeof AppDashboardIndexRoute
   AppScheduleIndexRoute: typeof AppScheduleIndexRoute
+  AppUsersIndexRoute: typeof AppUsersIndexRoute
 }
 
 const AppLayoutRouteChildren: AppLayoutRouteChildren = {
-  AppUsersLayoutRoute: AppUsersLayoutRouteWithChildren,
   AppBookingsIndexRoute: AppBookingsIndexRoute,
   AppClientsIndexRoute: AppClientsIndexRoute,
   AppDashboardIndexRoute: AppDashboardIndexRoute,
   AppScheduleIndexRoute: AppScheduleIndexRoute,
+  AppUsersIndexRoute: AppUsersIndexRoute,
 }
 
 const AppLayoutRouteWithChildren = AppLayoutRoute._addFileChildren(

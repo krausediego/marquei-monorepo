@@ -4,6 +4,8 @@ export const userKeys = {
   // ["users"] — raiz de tudo, usar quando quiser invalidar qualquer coisa de usuários
   all: () => ["users"] as const,
 
+  invitations: () => ["invitations"] as const,
+
   // ["users", "list"] — raiz das listas, usar quando quiser invalidar todas as listas independente dos filtros
   lists: () => [...userKeys.all(), "list"] as const,
 
@@ -15,4 +17,11 @@ export const userKeys = {
 
   // ["users", "detail", "id"] — detalhe de um usuário específico
   detail: (id: string) => [...userKeys.details(), id] as const,
+
+  overview: () => [...userKeys.all(), "overview"] as const,
+
+  invitationsLists: () => [...userKeys.invitations(), "list"] as const,
+
+  invitationsList: (filters?: PaginationQuery) =>
+    [...userKeys.invitationsLists(), filters] as const,
 };

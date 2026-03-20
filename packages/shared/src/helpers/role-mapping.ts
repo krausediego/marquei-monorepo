@@ -1,5 +1,5 @@
 const role = {
-  owner: "Líder",
+  owner: "Proprietário",
   admin: "Administrador",
   member: "Membro",
 };

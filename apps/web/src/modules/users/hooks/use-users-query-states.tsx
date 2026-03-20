@@ -3,7 +3,7 @@ import { parseAsInteger, parseAsString, useQueryStates } from "nuqs";
 export function useUsersQueryStates() {
   return useQueryStates({
     search: parseAsString,
-    page: parseAsInteger.withDefault(1),
-    limit: parseAsInteger.withDefault(10),
+    usersPage: parseAsInteger.withDefault(1),
+    usersLimit: parseAsInteger.withDefault(10),
   });
 }
